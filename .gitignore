@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Compiled Files
+dist
+
+# Code coverage
+coverage
+.nyc_output
