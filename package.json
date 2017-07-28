@@ -7,15 +7,25 @@
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint --ext .js lib test/*.js",
     "build": "rollup -c build/rollup.config.js",
     "watch": "npm run build -- -w",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "precommit": "npm run lint"
   },
   "dependencies": {},
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "eslint": "^4.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
