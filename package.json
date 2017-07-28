@@ -5,5 +5,21 @@
   "main": "index.js",
   "repository": "git@github.com:shirohana/dynapi.git",
   "author": "Hana Shiro <shirohana0608@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c build/rollup.config.js",
+    "watch": "npm run build -- -w",
+    "prepare": "npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.3.1"
+  }
 }
