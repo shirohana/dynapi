@@ -13,7 +13,16 @@
     "prepare": "npm run build",
     "precommit": "npm run lint"
   },
-  "dependencies": {},
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "debug": "^2.6.8",
+    "fs-extra": "^4.0.0",
+    "glob": "^7.1.2",
+    "lodash": "^4.17.4",
+    "pify": "^3.0.0",
+    "source-map-support": "^0.4.15",
+    "tappable": "^1.1.0"
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
