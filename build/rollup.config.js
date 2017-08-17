@@ -22,7 +22,7 @@ export default {
   entry: lib('index.js'),
   dest: dist('dynapi.js'),
   format: 'cjs',
-  external: ['fs', 'path'].concat(dependencies),
+  external: ['fs', 'path', 'module', 'vm'].concat(dependencies),
   sourceMap: true,
   plugins: [
     rollupNodeResolve(),
