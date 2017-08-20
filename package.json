@@ -7,6 +7,7 @@
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "test": "npm run lint && NODE_ENV=test npm run build && ava --verbose test/",
     "lint": "eslint --ext .js lib test/*.js",
     "build": "rollup -c build/rollup.config.js",
     "watch": "npm run build -- -w",
