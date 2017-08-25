@@ -6,6 +6,9 @@
   "repository": "git@github.com:shirohana/dynapi.git",
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "npm run lint && NODE_ENV=test npm run build && ava --verbose test/",
     "lint": "eslint --ext .js lib test/*.js",
