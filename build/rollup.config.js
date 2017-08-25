@@ -19,11 +19,13 @@ const aliases = {
 }
 
 export default {
-  entry: lib('index.js'),
-  dest: dist('dynapi.js'),
-  format: 'cjs',
+  input: lib('index.js'),
+  output: {
+    file: dist('dynapi.js'),
+    format: 'cjs'
+  },
   external: ['fs', 'path', 'module', 'vm'].concat(dependencies),
-  sourceMap: true,
+  sourcemap: true,
   plugins: [
     rollupNodeResolve(),
     rollupCommonJS(),
