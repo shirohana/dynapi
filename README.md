@@ -45,7 +45,7 @@ export const pattern = /^\d+$/
 // unless it's already an async function, you can still use async keyword to use await in your code.
 export default async (req, res, next, id) => {
   let user = await User.find(id)
-  
+
   if (user !== undefined) {
     req.user = user
     return next()
