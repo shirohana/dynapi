@@ -33,7 +33,7 @@
     "fs-extra": "^4.0.1",
     "glob": "^7.1.2",
     "lodash": "^4.17.4",
-    "native-require": "^1.0.2",
+    "native-require": "^1.1.2",
     "pify": "^3.0.0",
     "source-map-support": "^0.4.16",
     "tappable": "^1.1.0"
