@@ -6,6 +6,7 @@ node_modules
 
 # Compiled Files
 dist
+.dynapi
 
 # Code coverage
 coverage
