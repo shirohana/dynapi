@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "npm run lint && cross-env NODE_ENV=test npm run build && nyc ava --verbose test/ && nyc report --reporter=html",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint --ext .js lib test/*.js",
     "build": "rollup -c build/rollup.config.js",
     "watch": "npm run build -- -w",
@@ -43,6 +44,7 @@
     "babel-eslint": "^7.2.3",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "codecov": "^2.3.0",
     "connect": "^3.6.3",
     "cross-env": "^5.0.5",
     "eslint": "^4.5.0",

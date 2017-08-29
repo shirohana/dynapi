@@ -11,3 +11,4 @@ dist
 # Code coverage
 coverage
 .nyc_output
+coverage.lcov
