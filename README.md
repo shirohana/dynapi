@@ -1,7 +1,17 @@
-# Dynapi
+Dynapi
+======
+
+[![npm](https://img.shields.io/npm/v/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+[![Travis](https://img.shields.io/travis/shirohana/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+[![Codecov](https://img.shields.io/codecov/c/github/shirohana/dynapi/dev.svg)](https://codecov.io/gh/shirohana/dynapi/branch/dev)
+[![license](https://img.shields.io/github/license/shirohana/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+
 Dynamic API rendering middleware
 
-## Getting started
+> :fire: Dynapi is in heavy progressing, beware to use in productions!
+
+Getting started
+---------------
 
 ```
 $ npm install dynapi --save
@@ -21,14 +31,29 @@ app = http.createServer(dynapi(/* Options */))
 
 In default (dev mode), `dynapi` watches files under `/api`, and generates a dynamic routes to resolve requestings.
 
+Links
+-----
 
-## Documentations
+- [Postman](https://www.getpostman.com/) - An excellent graphical API tester
 
-{{ TODO }}
+Feature
+-------
 
-## Examples
+- [x] Make a RESTful API with Node.js never simple more than that
+- [x] Easy integration with popular frameworks
+- [x] Full ES6 syntax supports (also async/await)
+- [x] Using `middleware`, `param`, and `method` with watcher to render routes dynamically
+- [x] Custom timeout to throws an error (40x) if `middleware` or `param` didn't calls `next()` in specified time
+- [x] Custom param pattern to handle different type of request
+- [ ] Custom error handling in different situation
+- [ ] Custom alias to shorter imports
+- [ ] Generate static router file in production mode
+- [ ] Complete documentation
 
-Here's some simple examples for quick to start playing
+Examples
+--------
+
+Here's some examples for preparing to play
 
 #### Asynchronous Param Handler
 
@@ -94,10 +119,3 @@ export default (req, res) => {
   res.json(req.user)
 }
 ```
-
-## TODO
-
-- Support middleware array
-- Custom error handling
-- Generate static routes for no-params routes
-- Integration with Nuxt.js
