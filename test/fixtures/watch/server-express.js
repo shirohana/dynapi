@@ -4,7 +4,7 @@ const { Dynapi, Builder } = require('../../../index')
 const options = {
   dev: true,
   rootDir: __dirname,
-  apiDirname: 'api~'
+  routesDir: 'api~'
 }
 
 module.exports = function createServer () {
