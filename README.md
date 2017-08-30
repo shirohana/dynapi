@@ -36,8 +36,8 @@ Links
 
 - [Postman](https://www.getpostman.com/) - An excellent graphical API tester
 
-Feature
--------
+TODOs
+-----
 
 - [x] Make a RESTful API with Node.js never simple more than that
 - [x] Easy integration with popular frameworks
@@ -48,6 +48,7 @@ Feature
 - [x] Custom alias to shorter imports
 - [ ] Custom error handling in different situation
 - [ ] Generate static router file in production mode
+- [ ] Named `param` and `middleware`
 - [ ] Complete documentation
 
 Examples
