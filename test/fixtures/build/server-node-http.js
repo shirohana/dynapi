@@ -3,7 +3,8 @@ const { Dynapi, Builder } = require('../../../index')
 
 const options = {
   dev: true,
-  rootDir: __dirname
+  rootDir: __dirname,
+  aliases: ['error', 'model', 'utils']
 }
 
 module.exports = function createServer () {
