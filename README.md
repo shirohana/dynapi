@@ -45,8 +45,8 @@ Feature
 - [x] Using `middleware`, `param`, and `method` with watcher to render routes dynamically
 - [x] Custom timeout to throws an error (40x) if `middleware` or `param` didn't calls `next()` in specified time
 - [x] Custom param pattern to handle different type of request
+- [x] Custom alias to shorter imports
 - [ ] Custom error handling in different situation
-- [ ] Custom alias to shorter imports
 - [ ] Generate static router file in production mode
 - [ ] Complete documentation
 
