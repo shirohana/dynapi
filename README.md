@@ -47,6 +47,7 @@ TODOs
 - [x] Custom param pattern to handle different type of request
 - [x] Custom alias to shorter imports
 - [ ] Custom error handling in different situation
+- [ ] Watch files from imports dynamically
 - [ ] Generate static router file in production mode
 - [ ] Named `param` and `middleware`
 - [ ] Complete documentation
