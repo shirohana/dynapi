@@ -3,8 +3,6 @@ import { join } from 'path'
 import request from 'supertest'
 import nrequire from 'native-require'
 
-process.env.DEBUG = 'api:*'
-
 const _require = nrequire.from(join(__dirname, './fixtures/build'))
 
 let port = 3100
@@ -13,7 +11,7 @@ test.beforeEach(() => {
   process.env.dynapi_test_port = port++
 })
 
-test('With Node.HTTP', async t => {
+test.serial('With Node.HTTP', async t => {
   t.plan(1)
   const server = await _require('./server-node-http')()
 
@@ -28,7 +26,7 @@ test('With Node.HTTP', async t => {
   server.close()
 })
 
-test('With Connect', async t => {
+test.serial('With Connect', async t => {
   t.plan(1)
   const server = await _require('./server-connect')()
 
@@ -43,7 +41,7 @@ test('With Connect', async t => {
   server.close()
 })
 
-test('With Express.js', async t => {
+test.serial('With Express.js', async t => {
   t.plan(1)
   const server = await _require('./server-express')()
 
