@@ -1,5 +1,5 @@
 const express = require('express')
-const { Dynapi, Builder } = require('../../../index')
+const { Dynapi, Watcher } = require('../../../index')
 
 const options = {
   dev: true,
@@ -13,7 +13,7 @@ module.exports = function createServer () {
 
   const dynapi = new Dynapi(options)
 
-  return new Builder(dynapi).watch().then(() => {
+  return new Watcher(dynapi).watch().then(() => {
     const app = express()
 
     app.use('/api', dynapi.middleware())
