@@ -4,7 +4,7 @@ Dynapi
 [![npm](https://img.shields.io/npm/v/dynapi.svg)](https://www.npmjs.com/package/dynapi)
 [![Travis](https://img.shields.io/travis/shirohana/dynapi.svg)](https://www.npmjs.com/package/dynapi)
 [![Codecov](https://img.shields.io/codecov/c/github/shirohana/dynapi/dev.svg)](https://codecov.io/gh/shirohana/dynapi/branch/dev)
-[![license](https://img.shields.io/github/license/shirohana/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+[![license](https://img.shields.io/npm/l/dynapi.svg)](https://www.npmjs.com/package/dynapi)
 
 Dynamic API rendering middleware
 
