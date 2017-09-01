@@ -50,7 +50,62 @@ TODOs
 - [ ] Watch files from imports dynamically
 - [ ] Generate static router file in production mode
 - [ ] Named `param` and `middleware`
+- [ ] New `is` property in `routes` or `routeFiles`, see [Notes:property-is](#property-is)
 - [ ] Complete documentation
+
+Notes
+-----
+
+### <a name="property"></a>Property
+
+`Property` is annotations in route files which can change some behavior during routes rendering.
+
+Basic spec:
+
+```javascript
+// In files under routesDir/
+export const timeout = 400 // Response timeout to prevent locked
+export const pattern = /^\d+$/ // Param pattern to test
+// And more...
+```
+
+### <a name="property-is"></a>Property: `is`
+
+\* *Unimplemented yet*
+
+Customize what this file should be seen as.
+
+Availables in: `middleware|param|responser|catcher`
+
+Examples:
+
+```javascript
+
+export const is = "catcher"
+export const is = "putUser"
+export const is = "/user/middleware"
+
+```
+
+### <a name="naming"></a>Naming
+
+Naming different elements helps shorter and point to what are talking about explicitly.
+
+`route`: Each folder under the `routesDir`
+
+`paramRoute`: A `route` which folder name in `/^[:_]/`
+
+`middleware`: Middlewares (`middleware.js` files) under a `route`
+
+`param`: Parameters (`param.js` files) under a `paramRoute`
+
+`responser`: [Method files](#method-files) under a `route`
+
+`catcher`: Error handler (filename not decided yet) under a `route`
+
+### <a name="method-files"></a>Method files
+
+{{ TODO: Rules of method files }}
 
 Examples
 --------
