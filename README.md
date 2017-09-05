@@ -10,6 +10,8 @@ Dynamic API rendering middleware
 
 > :fire: Dynapi is in heavy progressing, beware to use in productions!
 
+> This README file would update frequently but not on NPM, please go to [GitHub][github] page for newest information.
+
 Getting started
 ---------------
 
@@ -177,3 +179,5 @@ export default (req, res) => {
   res.json(req.user)
 }
 ```
+
+[github]: https://github.com/shirohana/dynapi
