@@ -4,7 +4,10 @@ const { Dynapi, Watcher } = require('../../../index')
 const options = {
   dev: true,
   rootDir: __dirname,
-  routesDir: 'api~'
+  routesDir: 'api',
+  aliases: [
+    'controller/model'
+  ]
 }
 
 module.exports = function createServer () {
@@ -12,14 +15,16 @@ module.exports = function createServer () {
   const host = process.env.dynapi_test_host || '127.0.0.1'
 
   const dynapi = new Dynapi(options)
+  const watcher = new Watcher(dynapi)
 
-  return new Watcher(dynapi).watch().then(() => {
+  return watcher.watch().then(() => {
     const app = express()
 
     app.use('/api', dynapi.middleware())
 
     const server = app.listen(port, host)
     server.dynapi = dynapi
+    server.watcher = watcher
 
     return server
   })
