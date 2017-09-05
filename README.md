@@ -46,12 +46,13 @@ TODOs
 - [x] Custom timeout to throws an error (40x) if `middleware` or `param` didn't calls `next()` in specified time
 - [x] Custom param pattern to handle different type of request
 - [x] Custom alias to shorter imports
+- [x] Watch files from imports dynamically
 - [ ] Custom error handling in different situation
-- [ ] Watch files from imports dynamically
 - [ ] Generate static router file in production mode
 - [ ] Named `param` and `middleware`
 - [ ] New `is` property in `routes` or `routeFiles`, see [Notes:property-is](#property-is)
 - [ ] Complete documentation
+- [ ] Print dependency tree in `Watcher`
 
 Notes
 -----
