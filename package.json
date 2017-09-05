@@ -6,6 +6,13 @@
   "repository": "git@github.com:shirohana/dynapi.git",
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "http",
+    "middleware",
+    "api",
+    "connect",
+    "express"
+  ],
   "files": [
     "dist/"
   ],
