@@ -3,7 +3,9 @@ node_js:
   - "8"
   - "6"
 install:
-  - "yarn install"
-  - "yarn run build"
+  - yarn install
+  - yarn run build
 script:
-  - "yarn run test"
+  - yarn run test
+after_success:
+  - yarn run coverage
