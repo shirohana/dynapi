@@ -40,7 +40,12 @@ export default {
       ],
       presets: [
         'babel-preset-es2015-rollup'
-      ]
+      ],
+      env: {
+        test: {
+          plugins: ['istanbul']
+        }
+      }
     })
   ]
 }

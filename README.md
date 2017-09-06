@@ -1,7 +1,19 @@
-# Dynapi
+Dynapi
+======
+
+[![npm](https://img.shields.io/npm/v/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+[![Travis](https://img.shields.io/travis/shirohana/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+[![Codecov](https://img.shields.io/codecov/c/github/shirohana/dynapi/dev.svg)](https://codecov.io/gh/shirohana/dynapi/branch/dev)
+[![license](https://img.shields.io/npm/l/dynapi.svg)](https://www.npmjs.com/package/dynapi)
+
 Dynamic API rendering middleware
 
-## Getting started
+> :fire: Dynapi is in heavy progressing, beware to use in productions!
+
+> This README file would update frequently but not on NPM, please go to [GitHub][github] page for newest information.
+
+Getting started
+---------------
 
 ```
 $ npm install dynapi --save
@@ -21,14 +33,89 @@ app = http.createServer(dynapi(/* Options */))
 
 In default (dev mode), `dynapi` watches files under `/api`, and generates a dynamic routes to resolve requestings.
 
+Links
+-----
 
-## Documentations
+- [CHANGELOG][changelog]
 
-{{ TODO }}
+- [Postman](https://www.getpostman.com/) - An excellent graphical API tester
 
-## Examples
+TODOs
+-----
 
-Here's some simple examples for quick to start playing
+- [x] Make a RESTful API with Node.js never simple more than that
+- [x] Easy integration with popular frameworks
+- [x] Full ES6 syntax supports (also async/await)
+- [x] Using `middleware`, `param`, and `method` with watcher to render routes dynamically
+- [x] Custom timeout to throws an error (40x) if `middleware` or `param` didn't calls `next()` in specified time
+- [x] Custom param pattern to handle different type of request
+- [x] Custom alias to shorter imports
+- [x] Watch files from imports dynamically
+- [ ] Custom error handling in different situation
+- [ ] Generate static router file in production mode
+- [ ] Named `param` and `middleware`
+- [ ] New `is` property in `routes` or `routeFiles`, see [Notes:property-is](#property-is)
+- [ ] Complete documentation
+- [ ] Print dependency tree in `Watcher`
+
+Notes
+-----
+
+### <a name="property"></a>Property
+
+`Property` is annotations in route files which can change some behavior during routes rendering.
+
+Basic spec:
+
+```javascript
+// In files under routesDir/
+export const timeout = 400 // Response timeout to prevent locked
+export const pattern = /^\d+$/ // Param pattern to test
+// And more...
+```
+
+### <a name="property-is"></a>Property: `is`
+
+\* *Unimplemented yet*
+
+Customize what this file should be seen as.
+
+Availables in: `middleware|param|responser|catcher`
+
+Examples:
+
+```javascript
+
+export const is = "catcher"
+export const is = "putUser"
+export const is = "/user/middleware"
+
+```
+
+### <a name="naming"></a>Naming
+
+Naming different elements helps shorter and point to what are talking about explicitly.
+
+`route`: Each folder under the `routesDir`
+
+`paramRoute`: A `route` which folder name in `/^[:_]/`
+
+`middleware`: Middlewares (`middleware.js` files) under a `route`
+
+`param`: Parameters (`param.js` files) under a `paramRoute`
+
+`responser`: [Method files](#method-files) under a `route`
+
+`catcher`: Error handler (filename not decided yet) under a `route`
+
+### <a name="method-files"></a>Method files
+
+{{ TODO: Rules of method files }}
+
+Examples
+--------
+
+Here's some examples for preparing to play
 
 #### Asynchronous Param Handler
 
@@ -95,9 +182,5 @@ export default (req, res) => {
 }
 ```
 
-## TODO
-
-- Support middleware array
-- Custom error handling
-- Generate static routes for no-params routes
-- Integration with Nuxt.js
+[changelog]: https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md
+[github]: https://github.com/shirohana/dynapi
