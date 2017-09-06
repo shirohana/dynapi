@@ -36,6 +36,8 @@ In default (dev mode), `dynapi` watches files under `/api`, and generates a dyna
 Links
 -----
 
+- [CHANGELOG][changelog]
+
 - [Postman](https://www.getpostman.com/) - An excellent graphical API tester
 
 TODOs
@@ -180,4 +182,5 @@ export default (req, res) => {
 }
 ```
 
+[changelog]: https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md
 [github]: https://github.com/shirohana/dynapi
