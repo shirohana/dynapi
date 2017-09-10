@@ -8,8 +8,8 @@ export default class Database {
     if (selector.id) {
       return staticDB[selector.id]
     } else if (selector.username) {
-      const user = Object.values(staticDB).find(row => row.username === selector.username)
-      return user
+      const userId = Object.keys(staticDB).find(id => staticDB[id].username === selector.username)
+      return staticDB[userId]
     } else {
       return undefined
     }
