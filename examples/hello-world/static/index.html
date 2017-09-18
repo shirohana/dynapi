@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <title>Hello, dynapi!</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+  <div id="container">
+    <p class="blinding">Fetching data...</p>
+  </div>
+
+  <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    ;(function () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var container = document.querySelector('#container > p')
+
+        axios.post('/api')
+        .then(function (res) {
+          changeText(res.data.message)
+        })
+        .catch(function (err) {
+          changeText(err.message)
+        })
+
+        function changeText (text) {
+          container.innerText = text
+          container.classList.remove('blinding')
+          container.classList.add('success')
+        }
+      })
+    })();
+  </script>
+</body>
+
+</html>

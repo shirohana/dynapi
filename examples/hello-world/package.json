@@ -1,0 +1,7 @@
+{
+  "name": "hello-dynapi",
+  "dependencies": {
+    "dynapi": "latest",
+    "express": "^4.15.4"
+  }
+}
