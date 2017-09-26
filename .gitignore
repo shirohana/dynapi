@@ -12,3 +12,6 @@ dist
 coverage
 .nyc_output
 coverage.lcov
+
+# yarn.lock of examples
+examples/**/yarn.lock

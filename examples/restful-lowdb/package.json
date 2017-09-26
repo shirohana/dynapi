@@ -1,0 +1,11 @@
+{
+  "name": "restful",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.1",
+    "dynapi": "latest",
+    "express": "^4.15.4",
+    "lodash": "^4.17.4",
+    "lowdb": "^1.0.0"
+  }
+}
