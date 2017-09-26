@@ -4,6 +4,15 @@ Changelog
 [Unreleased]
 ------------
 
+[0.2.1] - 2017-09-26
+--------------------
+
+### Changed
+- Disable polyfill of transformations ([#25a44ae](https://github.com/shirohana/dynapi/commit/25a44ae82e6029abf489cd178465e56ef6310036))
+
+### Fixed
+- Default value of `req.params` ([#edaff91](https://github.com/shirohana/dynapi/commit/edaff91e824b230fdaf3074fb13458b02f199705))
+
 [0.2.0] - 2017-09-06
 --------------------
 
@@ -70,6 +79,7 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.2.0...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.2.1...dev
+[0.2.1]: https://github.com/shirohana/dynapi/releases/tag/v0.2.1
 [0.2.0]: https://github.com/shirohana/dynapi/releases/tag/v0.2.0
 [0.1.0]: https://github.com/shirohana/dynapi/releases/tag/v0.1.0
