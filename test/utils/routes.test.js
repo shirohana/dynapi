@@ -2,7 +2,7 @@ import test from 'ava'
 import { Utils } from '../../index.js'
 
 test('parseKeys(filename)', t => {
-  const parse = (file) => Utils.parseKeys(file).join('/')
+  const parse = (file) => Utils.Routes.parseKeys(file).join('/')
 
   t.is('get', parse('get.js'))
   t.is('user/get', parse('user/get.js'))
@@ -15,17 +15,17 @@ test('parseKeys(filename)', t => {
 
 
 test('ensureRoutes()', t => {
-  let root = Utils.createRoute({
+  let root = Utils.Routes.createRoute({
     name: 'root',
     path: '/'
   })
 
-  t.is(root, Utils.ensureRoutes(root, []))
+  t.is(root, Utils.Routes.ensureRoutes(root, []))
 
   let parent = root
   let routeKeys = ['user', ':id', 'profile']
 
-  Utils.ensureRoutes(root, routeKeys)
+  Utils.Routes.ensureRoutes(root, routeKeys)
   routeKeys.forEach((key) => {
     const type = (key.startsWith(':') ? 'paramChildren' : 'children')
     parent = parent[type][key]

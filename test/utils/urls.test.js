@@ -2,7 +2,7 @@ import test from 'ava'
 import { Utils } from '../../index.js'
 
 test('parseUrl(url)', t => {
-  const parse = Utils.parseUrl
+  const parse = Utils.Urls.parseUrl
 
   t.is(parse('user'), '/user')
   t.is(parse('user/shirohana/'), '/user/shirohana')
@@ -10,7 +10,7 @@ test('parseUrl(url)', t => {
 })
 
 test('parsePattern(url)', t => {
-  const parse = Utils.parsePattern
+  const parse = Utils.Urls.parsePattern
 
   let pattern = parse('user/:id')
   t.regex('/user/1', pattern)
@@ -25,7 +25,7 @@ test('parsePattern(url)', t => {
 })
 
 test('depthOf(url)', t => {
-  const depth = Utils.depthOf
+  const depth = Utils.Urls.depthOf
 
   t.is(depth('/user'), 1)
   t.is(depth('/user/0/'), 2)

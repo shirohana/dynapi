@@ -15,6 +15,7 @@ const aliases = {
   core: lib('core/index.js'),
   builder: lib('builder/index.js'),
   common: lib('common/index.js'),
+  utils: lib('common/utils/index.js'),
   app: lib('app')
 }
 
