@@ -1,5 +1,5 @@
 // Simulate network delay
-export const queryDelay = 200
+import queryDelay from './query-delay'
 
 export default class Database {
   static async find (selector) {

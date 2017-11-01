@@ -4,20 +4,14 @@ import fs from 'fs-extra'
 import request from 'supertest'
 import nrequire from 'native-require'
 
-process.env.DEBUG = 'api:*'
-
 const rootDir = join(__dirname, './fixtures/watch')
-const _require = nrequire.from(rootDir)
 
-const root = (p) => join(rootDir, p)
-const route = (p) => join(rootDir, 'api', p)
-const res = (p) => join(rootDir, 'resources', p)
+const r = (p) => join(rootDir, p)
+const resource = (p) => join(rootDir, 'resources', p)
 
-const port = 3120
 let server = null
 
 const callbacks = []
-
 const nextTick = async (callback) => {
   const tick = new Promise(resolve => callbacks.push(resolve))
   callback()
@@ -25,90 +19,101 @@ const nextTick = async (callback) => {
 }
 
 test.before(async () => {
-  process.env.dynapi_test_port = port
-
   // Clean up working directory for previous broken test
   await Promise.all([
-    fs.remove(root('api')),
-    fs.remove(root('controller')),
-    fs.remove(root('error'))
+    fs.remove(r('api')),
+    fs.remove(r('controller')),
+    fs.remove(r('error'))
   ])
 
   await Promise.all([
-    fs.copy(res('api'), root('api')),
-    fs.copy(res('controller'), root('controller')),
-    fs.copy(res('error'), root('error'))
+    fs.copy(resource('api'), r('api')),
+    fs.copy(resource('controller'), r('controller')),
+    fs.copy(resource('error'), r('error'))
   ])
 
-  server = await _require('./server-express')()
-  const watcher = server.watcher.watcher
+  const app = await nrequire.from(rootDir)('./server-express')()
+  const watcher = app._watcher.watcher
+  server = request(app)
 
-  // Internal watcher
-  watcher.on('all', (event, filename) => {
+  // Dynapi internal watcher
+  watcher.on('all', () => {
     while (callbacks.length > 0) {
-      callbacks.shift()(event, filename)
+      callbacks.shift()()
     }
   })
 })
 
 test.serial('Check initial status', async t => {
   await Promise.all([
-    request(server).get('/api').expect(200),
-    request(server).post('/api').expect(404),
-    request(server).get('/api/user/5').expect(200),
-    request(server).get('/api/user/12').expect(404)
+    server.get('/api').expect(200),
+    server.post('/api').expect(404),
+    server.get('/api/user/5').expect(200),
+    server.get('/api/user/12').expect(404)
   ])
   t.pass()
 })
 
 test.serial('Create new responser', async t => {
-  // Pre-test
-  await request(server).post('/api').expect(404)
+  // Before create responser
+  let res = await server.post('/api')
+  t.is(res.status, 404)
 
-  // Create /api/post.js
-  await nextTick(() => fs.copySync(res('post-simple.js'), route('post.js')))
+  await nextTick(() => fs.copySync(resource('post-simple.js'), r('api/post.js')))
 
-  await request(server).post('/api').expect(200).expect(({ body }) => t.is(body.message, 'POST /api'))
+  // After create responser
+  res = await server.post('/api')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, { message: 'POST /api' })
 
-  // Remove /api/post.js
-  await nextTick(() => fs.removeSync(route('post.js')))
-  await request(server).post('/api').expect(404)
+  await nextTick(() => fs.removeSync(r('api/post.js')))
+
+  // After remove created responser
+  res = await server.post('/api')
+  t.is(res.status, 404)
 })
 
 test.serial('Create new middleware', async t => {
-  // Pre-test
-  await request(server).get('/api').expect(200)
+  // Before create middleware
+  let res = await server.get('/api')
+  t.is(res.status, 200)
 
-  // Create /api/middleware.js
-  await nextTick(() => fs.copySync(res('middleware-reject.js'), route('middleware.js')))
-  await request(server).get('/api').expect(404) // TODO Custom error message or status
+  await nextTick(() => fs.copySync(resource('>reject.js'), r('api/>reject.js')))
 
-  // Add `ignore` property in /api/middleware.js
-  await nextTick(() => fs.appendFileSync(route('middleware.js'), '\nexport const ignore = true\n'))
-  await request(server).get('/api').expect(200)
+  // TODO Custom error message or status
+  // After create middleware
+  res = await server.get('/api')
+  t.is(res.status, 404)
 
-  t.pass()
+  await nextTick(() => fs.appendFileSync(r('/api/>reject.js'), '\nexport const ignore = true\n'))
+
+  // After added property into created middleware
+  res = await server.get('/api')
+  t.is(res.status, 200)
 })
 
-test.serial('Simulate bad network environment', async t => {
-  // Pre-test
-  await request(server).post('/api/user/shirohana').expect(200).expect(({ body }) => {
-    t.is(body.username, 'shirohana')
-    t.is(body.nickname, 'Hana Shiro')
+test.serial('Simulate response timeout', async t => {
+  // Before breaking time
+  let res = await server.post('/api/user/shirohana')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    username: 'shirohana',
+    nickname: 'Hana Shiro'
   })
-  await request(server).post('/api/user/another-user').expect(400)
 
-  await nextTick(() => fs.copySync(res('db-network-down.js'), root('controller/db.js')))
-  await request(server).post('/api/user/shirohana').expect(408)
+  res = await server.post('/api/user/another-user')
+  t.is(res.status, 400) // Response a specified status code
 
-  t.pass()
+  await nextTick(() => fs.copySync(resource('higher-query-delay.js'), r('controller/query-delay.js')))
+
+  res = await server.post('/api/user/shirohana')
+  t.is(res.status, 408)
 })
 
 test.after(async () => {
-  server.close()
-
-  await server.dynapi.close()
-  await fs.remove(root('api'))
-  await fs.remove(root('controller'))
-  await fs.remove(root('error'))
+  await Promise.all([
+    fs.remove(r('api')),
+    fs.remove(r('controller')),
+    fs.remove(r('error'))
+  ])
 })

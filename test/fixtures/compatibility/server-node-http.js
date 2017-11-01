@@ -1,22 +1,14 @@
-const express = require('express')
+const http = require('http')
 const { Dynapi, Builder } = require('../../../index')
 
 const options = {
   dev: true,
-  rootDir: __dirname,
-  aliases: [
-    'error',
-    'model',
-    { from: 'utils', to: 'utils' }
-  ]
+  rootDir: __dirname
 }
 
 module.exports = function createServer () {
-  const app = express()
   const dynapi = new Dynapi(options)
-
-  app.use(express.json())
-  app.use('/api', dynapi.middleware())
+  const app = http.createServer(dynapi.middleware())
 
   return new Builder(dynapi).build().then(() => app)
 }
