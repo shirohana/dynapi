@@ -4,6 +4,104 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.0] - 2017-11-01
+--------------------
+
+__:exclamation: This release contains breaking changes :exclamation:__
+
+### Added
+- <details><summary>New feature :sparkles: <b>Symbol Routing</b></summary>
+
+    You can now use symbols (customizable) to figureout Middlewares, Parameters and Catchers.
+
+    In default, we use `>` as a Middleware, `&` as a Parameter, and `#` as a Catcher.
+
+    ```
+    // Default symbols
+    options = {
+      symbol: {
+        middleware: '>',
+        parameter: '&',
+        catcher: '#'
+      }
+    }
+    ```
+
+    Here's some example:
+
+    ```
+    </project/
+      ▾ api/
+        >check-api-token.js
+        >log-access.js
+        ▾ user/
+          &userId.js    // export pattern = /\d+/
+          &username.js  // export pattern = /[a-zA-Z][a-zA-Z0-9_]{,15}/
+          >check-user-exists.js
+          ▾ :userId/
+          | get.js      // GET /api/user/:userId  <-- pass through (check-api-token -> log-access
+          |                             -> &userId -> check-user-exists -> get)
+          ▾ :username/
+            get.js      // GET /api/user/:username  <-- pass through (check-api-token -> log-access
+                                        -> &username -> check-user-exists -> get)
+    ```
+
+    Note 1. Old format (`middleware.js` and `param.js`) was no longer supported, but you
+      can still use these by seting `options.symbol` to `{ middlewares: 'middleware', parameter: 'param' }`
+
+    Note 2. Catcher is not implemented yet, but choose a symbol to use first seems not a bad idea :)
+
+  </details>
+
+- <details><summary>Multiple middlewares supported</summary>
+
+    Since symbol-routering has been added, you can attach multiple middlewares into the same route.
+
+    Middlewares in the same level will be ordered in increasing order by filename,
+    you can put a order number in front of the filename to ensure they were invoked as expected order.
+
+    For example:
+    ```
+    </project/
+      ▾ api/
+        ▾ photos/
+          >b01.js
+          post.js   // POST /api/ptohos  <-- pass through (a01 -> a02 -> b01 -> post)
+        >a01.js
+        >a02.js
+        get.js      // GET /api  <-- pass through (a01 -> a02 -> get)
+    ```
+  </details>
+
+- Complex param route supported (like `/flights/:from-:to`)
+
+### Changed
+- Now routes with params (`/user/:id`) will search the nearest param file (`&id.js`) in its parents
+- Improve performance
+- <details><summary>Change rules of complex Responser filename</summary>
+
+    A filename of Responser is starts with a method name and allowed following 0+ subpath(s).
+    Here's the rules:
+
+    - Use `()` surround every subpaths
+    - Only the first subpath can wrote without `()` but it will be transform to kebab-case
+    - Double or escape the colon can match a plain colon
+
+    Examples:
+
+    ```
+    get.js               -> GET /
+    getUserProfile.js    -> GET /user-profile
+    getUser:userId.js    -> GET /user-user-id (Not expected)
+    getUser(:userId).js  -> GET /user/:userId
+    get(:id).js          -> GET /:id
+    get(commit:::shasum) -> GET /commit:(:shasum) e.g. /commit:b790638
+    ```
+  </details>
+
+### Fixed
+- Fix `req.params` was undefined when no param file provided
+
 [0.2.1] - 2017-09-26
 --------------------
 
@@ -79,7 +177,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.2.1...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.0...dev
+[0.3.0]: https://github.com/shirohana/dynapi/releases/tag/v0.3.0
 [0.2.1]: https://github.com/shirohana/dynapi/releases/tag/v0.2.1
 [0.2.0]: https://github.com/shirohana/dynapi/releases/tag/v0.2.0
 [0.1.0]: https://github.com/shirohana/dynapi/releases/tag/v0.1.0

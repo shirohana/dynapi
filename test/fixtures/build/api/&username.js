@@ -1,3 +1,4 @@
+// ParamRoute will lookup parameter files with the same name in parents
 import User from '~model/user'
 import UserNotFoundError from '~error/user-not-found'
 

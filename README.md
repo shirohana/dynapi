@@ -6,69 +6,82 @@ Dynapi
 [![Codecov](https://img.shields.io/codecov/c/github/shirohana/dynapi/dev.svg)](https://codecov.io/gh/shirohana/dynapi/branch/dev)
 [![license](https://img.shields.io/npm/l/dynapi.svg)](https://www.npmjs.com/package/dynapi)
 
-> A dynamic routes generator for Express/Connect
+> A dynamic routes rendering middleware for Express/Connect
+>
+> Never shy to send me an issue or pr, in English or Chinese is better (๑ơ ω ơ)
+
+Features
+--------
+
+Dynapi watches all files inside your `routesDir` (default: `./api`) and update renderer according
+to your routesDir structure immediatly.
+
+For example, the file structure below:
+
+```
+</project/
+▾ api/
+  ▾ users/
+  |   get.js               // GET /users
+  |   post(:userId).js     // POST /users/:userId
+  |   &userId.js           // Specify :userId must match /\d+/
+  ▾ weather/
+  | ▾ :country/
+  |     get.js             // GET /weather/:country
+  getFlights(:from-:to).js // GET /flights/:from-:to
+  >check-api-key.js        // Middleware to ckeck user identifier
+  &country.js              // Specify :country in parent route
+```
+
+will be rendered to:
+
+| Method | URL                 |
+| ------ | ------------------- |
+| GET    | /users              |
+| POST   | /users              |
+| GET    | /weather/:country   |
+| GET    | /flights/:from-:to  |
+
+For more information, please checkout our [Changelog][changelog] (until homepage completed) or
+[examples](#examples).
+
+- [x] `ES6`, `async-await` supported
+- [x] Intuitive, super easy to use
+- [x] Complex filename rules (`getUser(:userId).js -> GET /user/:userId`)
+- [x] Friendly debug message
+- [x] Pending requests until builded
+- [x] Prevent response blocked in codes (global timeout and local timeout)
+- [x] High configurability
 
 Links
 -----
 
-- [Documentation](https://dynapi.shirohana.me)
-- [Changelog](https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md)
+<!-- Uncompleted yet - [Documentation](https://dynapi.shirohana.me) -->
+- [Changelog](changelog)
 
 Getting started
 ---------------
 
-> We assume you have enough knowledge in middleware and Express
+### Install
 
 ```
 $ npm install dynapi --save
 ```
 
-### Install middleware
-
-In default, Dynapi watches all files inside `/api` (configurable) and generates routes dynamically.
+### Plug to server
 
 ```javascript
-// Enable rich debug messages during develop
+const dnp = require('dynapi')
+app.use('/api', dnp())
+```
+
+### Enable debug messages
+
+```javascript
 if (process.env.NODE_ENV !== 'production') {
   process.env.DEBUG = 'api:*'
 }
-
-const dnp = require('dynapi')
-// ...
-
-app.use('/api', dnp()) // Plug to Express or Connect
 ```
-
-### Write your first route
-
-Inside your project, create `./api/getMessage.js` and fill:
-
-```javascript
-export default (req, res) => {
-  // If you're using Express
-  res.json({ message: 'Hello, world!' })
-  // Otherwise
-  res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify({ message: 'Hello, world!' }))
-}
-```
-
-And then request path `/api/message` with `GET` method.
-
-Using [axios](https://github.com/mzabriskie/axios):
-
-```javascript
-const data = await axios.get('/api/message')
-assert(data.message, 'Hello, world!')
-```
-
-Using [Postman](https://www.getpostman.com/):
-
-![Postman Example](https://i.imgur.com/kbMaJok.png)
-
-### Let's RESTful ₍₍ (ง ˘ω˘ )ว ⁾⁾
-
-Please take a look in [RESTful API Example](https://github.com/shirohana/dynapi/tree/dev/examples/restful-lowdb).
 
 Examples
 --------
@@ -77,3 +90,4 @@ Examples
 - [RESTful API with Lowdb](https://github.com/shirohana/dynapi/tree/dev/examples/restful-lowdb)
 
 [github]: https://github.com/shirohana/dynapi
+[changelog]: https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md

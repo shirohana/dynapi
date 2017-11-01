@@ -1,4 +1,7 @@
+import _debug from 'debug'
 import { pick } from '~utils'
+
+const debug = _debug('test:build')
 
 // Simulate database
 export default class User {
@@ -8,6 +11,8 @@ export default class User {
     if (typeof selector === 'string') {
       selector = { id: selector } // Treat as id
     }
+
+    debug('User.find(%s)  // for coverage', selector)
 
     if (typeof selector !== 'object') {
       throw new TypeError('Selector must be a string or object')

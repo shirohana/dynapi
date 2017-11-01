@@ -10,8 +10,12 @@ export default (req, res, next) => {
 
   // Validation user identity
   if (req.user.isAdmin) {
-    // TODO If user is signed (logged in) and is admin, or rejected
-    return next(new PermissionDenyError('Access an admin is not allowed'))
+    // lazy
+    if (req.body.token === 'TOKEN') {
+      return next()
+    } else {
+      return next(new PermissionDenyError('Access an admin is not allowed'))
+    }
   } else {
     return next()
   }
