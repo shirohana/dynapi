@@ -4,6 +4,20 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.1] - 2017-11-02
+--------------------
+
+### Changed
+- Always enable debug message when `options.dev` is true
+
+### Fixed
+- `Object.values` and `Object.entries` doesn't works in Node:6
+
+### Other
+- Fix test cases which causes build failure before ([#05f0656][#05f0656])
+
+[#05f0656]: https://github.com/shirohana/dynapi/commit/05f065657c034da0af2f29e48e812a65ec22c5f5
+
 [0.3.0] - 2017-11-01
 --------------------
 
@@ -177,7 +191,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.0...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.1...dev
+[0.3.1]: https://github.com/shirohana/dynapi/releases/tag/v0.3.1
 [0.3.0]: https://github.com/shirohana/dynapi/releases/tag/v0.3.0
 [0.2.1]: https://github.com/shirohana/dynapi/releases/tag/v0.2.1
 [0.2.0]: https://github.com/shirohana/dynapi/releases/tag/v0.2.0
