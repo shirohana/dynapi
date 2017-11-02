@@ -11,11 +11,9 @@ const resource = (p) => join(rootDir, 'resources', p)
 
 let server = null
 
-const callbacks = []
-const nextTick = async (callback) => {
-  const tick = new Promise(resolve => callbacks.push(resolve))
+const run = async (callback) => {
   callback()
-  await tick
+  await new Promise(resolve => setTimeout(resolve, 400))
 }
 
 test.before(async () => {
@@ -32,16 +30,12 @@ test.before(async () => {
     fs.copy(resource('error'), r('error'))
   ])
 
-  const app = await nrequire.from(rootDir)('./server-express')()
-  const watcher = app._watcher.watcher
-  server = request(app)
+  server = request(await nrequire.from(rootDir)('./server-express')())
 
-  // Dynapi internal watcher
-  watcher.on('all', () => {
-    while (callbacks.length > 0) {
-      callbacks.shift()()
-    }
-  })
+  // I don't know why it works :(
+  if (/^linux/.test(process.platform)) {
+    await run(() => fs.appendFileSync(r('api/get.js'), '\n// Touched\n'))
+  }
 })
 
 test.serial('Check initial status', async t => {
@@ -59,14 +53,14 @@ test.serial('Create new responser', async t => {
   let res = await server.post('/api')
   t.is(res.status, 404)
 
-  await nextTick(() => fs.copySync(resource('post-simple.js'), r('api/post.js')))
+  await run(() => fs.copySync(resource('post-simple.js'), r('api/post.js')))
 
   // After create responser
   res = await server.post('/api')
   t.is(res.status, 200)
   t.deepEqual(res.body, { message: 'POST /api' })
 
-  await nextTick(() => fs.removeSync(r('api/post.js')))
+  await run(() => fs.removeSync(r('api/post.js')))
 
   // After remove created responser
   res = await server.post('/api')
@@ -78,14 +72,14 @@ test.serial('Create new middleware', async t => {
   let res = await server.get('/api')
   t.is(res.status, 200)
 
-  await nextTick(() => fs.copySync(resource('>reject.js'), r('api/>reject.js')))
+  await run(() => fs.copySync(resource('>reject.js'), r('api/>reject.js')))
 
   // TODO Custom error message or status
   // After create middleware
   res = await server.get('/api')
   t.is(res.status, 404)
 
-  await nextTick(() => fs.appendFileSync(r('/api/>reject.js'), '\nexport const ignore = true\n'))
+  await run(() => fs.appendFileSync(r('/api/>reject.js'), '\nexport const ignore = true\n'))
 
   // After added property into created middleware
   res = await server.get('/api')
@@ -104,7 +98,7 @@ test.serial('Simulate response timeout', async t => {
   res = await server.post('/api/user/another-user')
   t.is(res.status, 400) // Response a specified status code
 
-  await nextTick(() => fs.copySync(resource('higher-query-delay.js'), r('controller/query-delay.js')))
+  await run(() => fs.copySync(resource('higher-query-delay.js'), r('controller/query-delay.js')))
 
   res = await server.post('/api/user/shirohana')
   t.is(res.status, 408)
