@@ -35,12 +35,11 @@ export default {
     }, aliases)),
     rollupBabel({
       exclude: 'node_modules/**',
-      plugins: [
-        ['transform-runtime', { 'helpers': false, 'polyfill': false }],
-        'transform-async-to-generator'
-      ],
       presets: [
-        'babel-preset-es2015-rollup'
+        ['env', {
+          targets: { node: 'current' },
+          modules: false
+        }]
       ],
       env: {
         test: {

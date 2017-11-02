@@ -4,6 +4,10 @@ Changelog
 [Unreleased]
 ------------
 
+### Changed
+- Improve performance by using `babel-preset-env` to prevent transforming already
+    implemented features depending on Node version
+
 [0.3.1] - 2017-11-02
 --------------------
 
