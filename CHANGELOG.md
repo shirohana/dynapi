@@ -7,6 +7,7 @@ Changelog
 ### Changed
 - Improve performance by using `babel-preset-env` to prevent transforming already
     implemented features depending on Node version
+- de-dependent on `lodash` to minify dynapi bundle size
 
 [0.3.1] - 2017-11-02
 --------------------
