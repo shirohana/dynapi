@@ -7,8 +7,6 @@ Dynapi
 [![license](https://img.shields.io/npm/l/dynapi.svg)](https://www.npmjs.com/package/dynapi)
 
 > A dynamic routes rendering middleware for Express/Connect
->
-> Never shy to send me an issue or pr, and welcome to provide examples (๑ơ ω ơ)
 
 Features
 --------
@@ -223,7 +221,14 @@ export default class PermissionDenied extends Error {
 
 If you don't need the stacktraces, you can also throw a literal object like `next({ status: 403 })`.
 
-### Options
+#### What's next
+
+You can find more examples below, and welcome to provide yours!
+
+If these examples are not enough for you, if you got any questions, never shy to send me an issue (๑ơ ω ơ)
+
+Options
+-------
 
 | Property          | Type                | Default                                           | Description |
 | ---               | ---                 | ---                                               | --- |
