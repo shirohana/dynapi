@@ -2,7 +2,6 @@ import { join, resolve } from 'path'
 import rollupAlias from 'rollup-plugin-alias'
 import rollupBabel from 'rollup-plugin-babel'
 import rollupCommonJS from 'rollup-plugin-commonjs'
-import rollupNodeResolve from 'rollup-plugin-node-resolve'
 
 const packageJson = require('../package.json')
 const dependencies = Object.keys(packageJson.dependencies)
@@ -28,7 +27,6 @@ export default {
   external: ['fs', 'path', 'module', 'vm'].concat(dependencies),
   sourcemap: true,
   plugins: [
-    rollupNodeResolve(),
     rollupCommonJS(),
     rollupAlias(Object.assign({
       resolve: ['index.js', '.js']
