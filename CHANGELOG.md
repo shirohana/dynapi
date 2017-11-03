@@ -4,10 +4,13 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.2] - 2017-11-03
+--------------------
+
 ### Changed
 - Improve performance by using `babel-preset-env` to prevent transforming already
     implemented features depending on Node version
-- de-dependent on `lodash` to minify dynapi bundle size
+- De-dependent on `lodash` to minify dynapi bundle size
 
 [0.3.1] - 2017-11-02
 --------------------
@@ -196,7 +199,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.1...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.2...dev
+[0.3.2]: https://github.com/shirohana/dynapi/releases/tag/v0.3.2
 [0.3.1]: https://github.com/shirohana/dynapi/releases/tag/v0.3.1
 [0.3.0]: https://github.com/shirohana/dynapi/releases/tag/v0.3.0
 [0.2.1]: https://github.com/shirohana/dynapi/releases/tag/v0.2.1
