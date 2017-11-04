@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Changed
+- Allow responser-less routes pass through dynapi in `loose-mode`
+
 [0.3.3] - 2017-11-04
 --------------------
 
