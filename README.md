@@ -29,7 +29,7 @@ Links
 -----
 
 <!-- Uncompleted yet - [Documentation](https://dynapi.shirohana.me) -->
-- [Changelog](changelog)
+- [Changelog][changelog]
 
 Getting started
 ---------------
