@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Changed
+- Improve tiny build time at startup
+
 ### Fixed
 - Fix calling `next()` at wrong case
 
