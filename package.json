@@ -1,6 +1,6 @@
 {
   "name": "dynapi",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A dynamic routes rendering middleware for Express/Connect",
   "main": "index.js",
   "repository": "git@github.com:shirohana/dynapi.git",
