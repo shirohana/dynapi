@@ -7,6 +7,9 @@ Changelog
 ### Changed
 - Allow responser-less routes pass through dynapi in `loose-mode`
 
+### Fixed
+- Fix dynapi response 404 after file change since [0.3.0][0.3.0] in dev-mode
+
 [0.3.3] - 2017-11-04
 --------------------
 
