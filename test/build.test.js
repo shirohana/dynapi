@@ -73,6 +73,11 @@ test('GET /api/specials/syntax-error <-- Build failed path would got 500', async
   t.is(res.status, 500)
 })
 
+test('GET /api/specials/throwing-plain-error <-- Coverage', async t => {
+  const res = await server.get('/api/specials/throwing-plain-error')
+  t.is(res.status, 500)
+})
+
 test('GET /api/loose-path <-- Should passed through dynapi', async t => {
   const res = await server.get('/api/loose-path')
   t.is(res.status, 200)

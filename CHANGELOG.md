@@ -10,6 +10,7 @@ Changelog
 
 ### Fixed
 - Fix calling `next()` at wrong case
+- Fix error stack tracing when transform failed
 
 [0.3.4] - 2017-11-04
 --------------------
