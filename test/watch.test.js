@@ -39,13 +39,10 @@ test.before(async () => {
 })
 
 test.serial('Check initial status', async t => {
-  await Promise.all([
-    server.get('/api').expect(200),
-    server.post('/api').expect(404),
-    server.get('/api/user/5').expect(200),
-    server.get('/api/user/12').expect(404)
-  ])
-  t.pass()
+  t.is((await server.get('/api')).status, 200)
+  t.is((await server.post('/api')).status, 404)
+  t.is((await server.get('/api/user/5')).status, 200)
+  t.is((await server.get('/api/user/12')).status, 404)
 })
 
 test.serial('Create new responser', async t => {
@@ -77,7 +74,7 @@ test.serial('Create new middleware', async t => {
   // TODO Custom error message or status
   // After create middleware
   res = await server.get('/api')
-  t.is(res.status, 404)
+  t.is(res.status, 403)
 
   await run(() => fs.appendFileSync(r('/api/>reject.js'), '\nexport const ignore = true\n'))
 

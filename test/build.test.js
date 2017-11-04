@@ -68,7 +68,15 @@ test('GET /api/specials/async-responser <-- Exports a async function', async t =
   })
 })
 
-test('GET /api/specials/syntax-error <-- Build failure and get 404', async t => {
+test('GET /api/specials/syntax-error <-- Build failed path would got 404', async t => {
   const res = await server.get('/api/specials/syntax-error')
   t.is(res.status, 404)
+})
+
+test('GET /api/loose-path <-- Should passed through dynapi', async t => {
+  const res = await server.get('/api/loose-path')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'passed through dynapi'
+  })
 })

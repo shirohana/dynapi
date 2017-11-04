@@ -1,3 +1,5 @@
 export default (req, res, next) => {
-  next('Rejected')
+  const error = new Error('Rejected')
+  error.status = 403
+  next(error)
 }

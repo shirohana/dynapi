@@ -236,6 +236,7 @@ Options
 | `rootDir`         | String              | process.cwd()                                     | The project root. Normally is where your `package.json` and `node_modules` are. |
 | `srcDir`          | String              | `rootDir`                                         | Your source code root directory. Used to solve relative requires and aliases. |
 | `routesDir`       | String              | 'api'                                             | The root of routes flies. Dynapi will generate routes from the directory structure of `routesDir` |
+| `loose`           | Boolean             | false                                             | If true, dynapi will invoke `next()` when requested path doesn't match any routes. |
 | `aliases`         | Array&lt;String \| Object&gt; | []                                      | Aliases to be resolved from requires. There's a example below. |
 | `responseTimeout` | Number              | 800 (ms)                                          | How much time can a middleware used. If exceeds, reject the request with status 408. |
 | `symbol`          | Object              | { middleware: '>', parameter: '&', catcher: '#' } | Which symbol to used to distinguish different type of files. |

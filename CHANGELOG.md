@@ -4,6 +4,12 @@ Changelog
 [Unreleased]
 ------------
 
+### Added
+- New option: `loose`
+
+  If set to `true`, dynapi will invoke `next()` when requested path doesn't match any routes.
+  (Default: `false`)
+
 [0.3.2] - 2017-11-03
 --------------------
 
