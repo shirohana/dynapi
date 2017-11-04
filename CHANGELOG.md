@@ -5,6 +5,7 @@ Changelog
 ------------
 
 ### Changed
+- Now the routefiles that transform failed will print error stack and response 500 status instead ignoring
 - Improve tiny build time at startup
 
 ### Fixed
