@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Fixed
+- Fix calling `next()` at wrong case
+
 [0.3.4] - 2017-11-04
 --------------------
 
