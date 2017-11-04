@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.4] - 2017-11-04
+--------------------
+
 ### Changed
 - Allow responser-less routes pass through dynapi in `loose-mode`
 
@@ -214,7 +217,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.3...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.4...dev
+[0.3.4]: https://github.com/shirohana/dynapi/releases/tag/v0.3.4
 [0.3.3]: https://github.com/shirohana/dynapi/releases/tag/v0.3.3
 [0.3.2]: https://github.com/shirohana/dynapi/releases/tag/v0.3.2
 [0.3.1]: https://github.com/shirohana/dynapi/releases/tag/v0.3.1
