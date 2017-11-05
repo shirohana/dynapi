@@ -78,6 +78,22 @@ test('GET /api/specials/throwing-plain-error <-- Coverage', async t => {
   t.is(res.status, 500)
 })
 
+test('GET /api/specials/script::new <-- Converage', async t => {
+  const res = await server.get('/api/specials/script::new')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'new Script()'
+  })
+})
+
+test('GET /api/specials/c:\\\\program files <-- Converage', async t => {
+  const res = await server.get(encodeURI('/api/specials/c:\\\\program files'))
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'You are sooo MS'
+  })
+})
+
 test('GET /api/loose-path <-- Should passed through dynapi', async t => {
   const res = await server.get('/api/loose-path')
   t.is(res.status, 200)

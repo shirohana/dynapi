@@ -7,6 +7,21 @@ Changelog
 ### Changed
 - Now the routefiles that transform failed will print error stack and response 500 status instead ignoring
 - Improve tiny build time at startup
+- Use `decodeURI` to bypass special characters
+
+  If your request path contains any special characters, you should use `encodeURI` before requesting.
+
+  Although HTTP has already transformed these special characters for you, but it also transforms `\\`
+  to `/`. At least use `encodeURI` when request path contains a `\\`.
+
+  ```javascript
+  axios.get('/c:\\program files')
+  // Received: GET /c:/program files (unexpected)
+  axios.get(encodeURI('/c:\\program files'))
+  // Received: GET /c:\\program files
+  ```
+
+  Note 1. Dynapi use two sequences to bypass matching a parameter beginning: `::` and `\:`
 
 ### Fixed
 - Fix calling `next()` at wrong case
