@@ -1,0 +1,17 @@
+doctype html
+html( lang="en" )
+  head
+    meta( charset="UTF-8" )
+    title
+      | #{path} [express-session] - Dynapi
+  body
+    div
+      if count
+        p You have viewed #[code= path] #{count} #{count > 1 ? 'times' : 'time'}
+      else
+        p You are viewing #[code= path]
+      nav
+        a( href="/foo" ) Go to /foo
+        a( href="/bar" ) Go to /bar
+
+    link( rel="stylesheet", href="/static/style.css" )
