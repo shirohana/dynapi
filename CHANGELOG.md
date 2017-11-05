@@ -4,6 +4,32 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.5] - 2017-11-05
+--------------------
+
+### Changed
+- Now the routefiles that transform failed will print error stack and response 500 status instead ignoring
+- Improve tiny build time at startup
+- Use `decodeURI` to bypass special characters
+
+  If your request path contains any special characters, you should use `encodeURI` before requesting.
+
+  Although HTTP has already transformed these special characters for you, but it also transforms `\\`
+  to `/`. At least use `encodeURI` when request path contains a `\\`.
+
+  ```javascript
+  axios.get('/c:\\program files')
+  // Received: GET /c:/program files (unexpected)
+  axios.get(encodeURI('/c:\\program files'))
+  // Received: GET /c:\\program files
+  ```
+
+  Note 1. Dynapi use two sequences to bypass matching a parameter beginning: `::` and `\:`
+
+### Fixed
+- Fix calling `next()` at wrong case
+- Fix error stack tracing when transform failed
+
 [0.3.4] - 2017-11-04
 --------------------
 
@@ -217,7 +243,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.4...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.5...dev
+[0.3.5]: https://github.com/shirohana/dynapi/releases/tag/v0.3.5
 [0.3.4]: https://github.com/shirohana/dynapi/releases/tag/v0.3.4
 [0.3.3]: https://github.com/shirohana/dynapi/releases/tag/v0.3.3
 [0.3.2]: https://github.com/shirohana/dynapi/releases/tag/v0.3.2

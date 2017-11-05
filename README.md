@@ -248,6 +248,7 @@ Examples
 --------
 
 - [Basic](https://github.com/shirohana/dynapi/tree/dev/examples/hello-world)
+- [With `express-session`](https://github.com/shirohana/dynapi/tree/dev/examples/express-session)
 - [RESTful API with Lowdb](https://github.com/shirohana/dynapi/tree/dev/examples/restful-lowdb)
 
 [github]: https://github.com/shirohana/dynapi

@@ -60,17 +60,45 @@ test('POST /api/user/shirohana  <-- Timeout === 0 will be rejected by 408', asyn
   t.is(res.status, 408)
 })
 
-test('GET /api/specials/async-responser <-- Exports a async function', async t => {
-  const res = await server.get('/api/specials/async-responser')
+test('GET /api/specials/timeout-zero <-- Timeout === 0 ', async t => {
+  const res = await server.get('/api/specials/timeout-zero')
+  t.is(res.status, 408)
+})
+
+test('GET /api/specials/exports-not-function <-- Default export is not a function', async t => {
+  const res = await server.get('/api/specials/exports-not-function')
+  t.is(res.status, 408)
+})
+
+test('GET /api/specials/syntax-error <-- Build failed path would got 500', async t => {
+  const res = await server.get('/api/specials/syntax-error')
+  t.is(res.status, 500)
+})
+
+test('GET /api/specials/throwing-plain-text <-- Coverage', async t => {
+  const res = await server.get('/api/specials/throwing-plain-text')
+  t.is(res.status, 500)
+})
+
+test('GET /api/specials/throwing-plain-error <-- Coverage', async t => {
+  const res = await server.get('/api/specials/throwing-plain-error')
+  t.is(res.status, 500)
+})
+
+test('GET /api/specials/script::new <-- Converage', async t => {
+  const res = await server.get('/api/specials/script::new')
   t.is(res.status, 200)
   t.deepEqual(res.body, {
-    message: 'Resolved!'
+    message: 'new Script()'
   })
 })
 
-test('GET /api/specials/syntax-error <-- Build failed path would got 404', async t => {
-  const res = await server.get('/api/specials/syntax-error')
-  t.is(res.status, 404)
+test('GET /api/specials/c:\\\\program files <-- Converage', async t => {
+  const res = await server.get(encodeURI('/api/specials/c:\\\\program files'))
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'You are sooo MS'
+  })
 })
 
 test('GET /api/loose-path <-- Should passed through dynapi', async t => {

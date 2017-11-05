@@ -1,0 +1,13 @@
+{
+  "name": "dinapi-express-session",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dynapi": "latest",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "pug": "^2.0.0-rc.4"
+  }
+}

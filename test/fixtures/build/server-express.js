@@ -19,7 +19,7 @@ module.exports = function createServer () {
   app.use(express.json())
   app.use('/api', dynapi.middleware())
 
-  app.get('/api/loose-path', (req, res) => {
+  app.get('*', (req, res) => {
     res.json({ message: 'passed through dynapi' })
   })
 
