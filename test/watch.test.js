@@ -10,6 +10,7 @@ const r = (p) => join(rootDir, p)
 const resource = (p) => join(rootDir, 'resources', p)
 
 let server = null
+let watcher = null // To be closed
 
 const run = async (callback) => {
   callback()
@@ -30,7 +31,9 @@ test.before(async () => {
     fs.copy(resource('error'), r('error'))
   ])
 
-  server = request(await nrequire.from(rootDir)('./server-express')())
+  const app = await nrequire.from(rootDir)('./server-express')()
+  server = request(app)
+  watcher = app.watcher
 
   // I don't know why it works :(
   if (/^linux/.test(process.platform)) {
@@ -50,16 +53,22 @@ test.serial('Create new responser', async t => {
   let res = await server.post('/api')
   t.is(res.status, 404)
 
+  // Create responser which contains SyntaxError
+  await run(() => fs.copySync(resource('post-simple-syntax-error.js'), r('api/post.js')))
+
+  res = await server.post('/api')
+  t.is(res.status, 500)
+
+  // Create responser which works correctly
   await run(() => fs.copySync(resource('post-simple.js'), r('api/post.js')))
 
-  // After create responser
   res = await server.post('/api')
   t.is(res.status, 200)
   t.deepEqual(res.body, { message: 'POST /api' })
 
+  // Remove created responser
   await run(() => fs.removeSync(r('api/post.js')))
 
-  // After remove created responser
   res = await server.post('/api')
   t.is(res.status, 404)
 })
@@ -69,16 +78,27 @@ test.serial('Create new middleware', async t => {
   let res = await server.get('/api')
   t.is(res.status, 200)
 
+  // Create middleware which reject all request by 403
   await run(() => fs.copySync(resource('>reject.js'), r('api/>reject.js')))
 
-  // TODO Custom error message or status
-  // After create middleware
   res = await server.get('/api')
   t.is(res.status, 403)
 
+  // Add ignore property to 'reject-all-middleware'
   await run(() => fs.appendFileSync(r('/api/>reject.js'), '\nexport const ignore = true\n'))
 
-  // After added property into created middleware
+  res = await server.get('/api')
+  t.is(res.status, 200)
+
+  // Add broken middleware which cause 500 when requests through by
+  // Use unnamed middleware for coverage
+  await run(() => fs.copySync(resource('>broken.js'), r('api/>.js')))
+
+  res = await server.get('/api')
+  t.is(res.status, 500)
+
+  await run(() => fs.removeSync(r('api/>.js')))
+
   res = await server.get('/api')
   t.is(res.status, 200)
 })
@@ -101,7 +121,25 @@ test.serial('Simulate response timeout', async t => {
   t.is(res.status, 408)
 })
 
+test.serial('Remove parameter', async t => {
+  let res = await server.get('/api/user/2')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'GET /api/user/2'
+  })
+
+  // Remove parameter for coverage
+  await run(() => fs.removeSync(r('api/user/&userId.js')))
+
+  res = await server.get('/api/user/2')
+  t.is(res.status, 200)
+  t.deepEqual(res.body, {
+    message: 'GET /api/user/'
+  })
+})
+
 test.after(async () => {
+  await watcher.close()
   await Promise.all([
     fs.remove(r('api')),
     fs.remove(r('controller')),

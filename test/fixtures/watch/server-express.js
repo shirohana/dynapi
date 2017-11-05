@@ -17,6 +17,7 @@ module.exports = function createServer () {
   const app = express()
 
   app.use('/api', dynapi.middleware())
+  app.watcher = watcher
 
   return watcher.watch().then(() => app)
 }
