@@ -21,6 +21,9 @@ Changelog
   }
   ```
 
+### Fixed
+- Fix middlewares do not used when request path not exists in `routesDir` since `loose-mode` added
+
 [0.3.5] - 2017-11-05
 --------------------
 
