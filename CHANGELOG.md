@@ -4,6 +4,14 @@ Changelog
 [Unreleased]
 ------------
 
+### Added
+- New option: `ignorePaths`
+
+  If the incoming request path is contains in `ignorePaths`, dynapi will pass the request to the
+  next middleware directly.
+
+  It's useful when you serving API with resources.
+
 ### Changed
 - Now errors thrown by route files are `silent` in default when `options.dev === false` (or says
   `process.env.NODE_ENV === 'production'`)
