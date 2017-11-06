@@ -146,9 +146,6 @@ Seems we done nothing? Logics was moved to another files ξ( ✿＞◡❛)
 
 #### Fetch the user (Parameter)
 
-Remember that __always call `next()`__. Without doing that, it will never invoke the next handler and
-exceeds timeout.
-
 ```javascript
 // <project>/server/api/user/:userId.js
 import User from '~model/user'
@@ -173,8 +170,6 @@ export default (req, res, next, userId) => {
 ```
 
 #### Check is user a admin (Middleware)
-
-Remember that __always call `next()`__.
 
 ```javascript
 // <project>/server/api/user/:userId/>check-admin.js
