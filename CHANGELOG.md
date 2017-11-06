@@ -4,6 +4,23 @@ Changelog
 [Unreleased]
 ------------
 
+### Changed
+- Now errors thrown by route files are `silent` in default when `options.dev === false` (or says
+  `process.env.NODE_ENV === 'production'`)
+
+  You can still forcing silent or not by providing it in Error object, for example:
+
+  ```javascript
+  // >check-post-data.js
+  export default (req, res, next) => {
+    if (typeof req.body.username === 'string') {
+      return next()
+    } else {
+      return next({ silent: true, status: 400 }) // Always silent even in dev-mode
+    }
+  }
+  ```
+
 [0.3.5] - 2017-11-05
 --------------------
 
