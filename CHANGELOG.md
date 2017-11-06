@@ -10,7 +10,8 @@ Changelog
   If the incoming request path is contains in `ignorePaths`, dynapi will pass the request to the
   next middleware directly.
 
-  It's useful when you serving API with resources.
+  It's useful when you serving API with resources. Here is an example: [Using with Nuxt.js and
+  express-session](https://github.com/shirohana/dynapi/tree/dev/examples/nuxt-express-session)
 
 - Now you can send headers in middlewares as expected. (Like using `redirect`)
 

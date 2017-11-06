@@ -245,6 +245,7 @@ Examples
 - [Basic](https://github.com/shirohana/dynapi/tree/dev/examples/hello-world)
 - [With `express-session`](https://github.com/shirohana/dynapi/tree/dev/examples/express-session)
 - [RESTful API with Lowdb](https://github.com/shirohana/dynapi/tree/dev/examples/restful-lowdb)
+- [With `Nuxt.js` and `express-session`](https://github.com/shirohana/dynapi/tree/dev/examples/nuxt-express-session)
 
 [github]: https://github.com/shirohana/dynapi
 [changelog]: https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md
