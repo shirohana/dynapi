@@ -12,6 +12,8 @@ Changelog
 
   It's useful when you serving API with resources.
 
+- Now you can send headers in middlewares as expected. (Like using `redirect`)
+
 ### Changed
 - Now errors thrown by route files are `silent` in default when `options.dev === false` (or says
   `process.env.NODE_ENV === 'production'`)
