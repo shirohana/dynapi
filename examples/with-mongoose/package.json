@@ -1,0 +1,15 @@
+{
+  "name": "with-mongoose",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js",
+    "start": "NODE_ENV=production node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "dynapi": "latest",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.0"
+  }
+}
