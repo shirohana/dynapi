@@ -4,6 +4,40 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.6] - 2017-11-07
+--------------------
+
+### Added
+- New option: `ignorePaths`
+
+  If the incoming request path is contains in `ignorePaths`, dynapi will pass the request to the
+  next middleware directly.
+
+  It's useful when you serving API with resources. Here is an example: [Using with Nuxt.js and
+  express-session](https://github.com/shirohana/dynapi/tree/dev/examples/nuxt-express-session)
+
+- Now you can send headers in middlewares as expected. (Like using `redirect`)
+
+### Changed
+- Now errors thrown by route files are `silent` in default when `options.dev === false` (or says
+  `process.env.NODE_ENV === 'production'`)
+
+  You can still forcing silent or not by providing it in Error object, for example:
+
+  ```javascript
+  // >check-post-data.js
+  export default (req, res, next) => {
+    if (typeof req.body.username === 'string') {
+      return next()
+    } else {
+      return next({ silent: true, status: 400 }) // Always silent even in dev-mode
+    }
+  }
+  ```
+
+### Fixed
+- Fix middlewares do not used when request path not exists in `routesDir` since `loose-mode` added
+
 [0.3.5] - 2017-11-05
 --------------------
 
@@ -243,7 +277,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.5...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.6...dev
+[0.3.6]: https://github.com/shirohana/dynapi/releases/tag/v0.3.6
 [0.3.5]: https://github.com/shirohana/dynapi/releases/tag/v0.3.5
 [0.3.4]: https://github.com/shirohana/dynapi/releases/tag/v0.3.4
 [0.3.3]: https://github.com/shirohana/dynapi/releases/tag/v0.3.3

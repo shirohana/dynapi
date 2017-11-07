@@ -146,9 +146,6 @@ Seems we done nothing? Logics was moved to another files ξ( ✿＞◡❛)
 
 #### Fetch the user (Parameter)
 
-Remember that __always call `next()`__. Without doing that, it will never invoke the next handler and
-exceeds timeout.
-
 ```javascript
 // <project>/server/api/user/:userId.js
 import User from '~model/user'
@@ -173,8 +170,6 @@ export default (req, res, next, userId) => {
 ```
 
 #### Check is user a admin (Middleware)
-
-Remember that __always call `next()`__.
 
 ```javascript
 // <project>/server/api/user/:userId/>check-admin.js
@@ -250,6 +245,7 @@ Examples
 - [Basic](https://github.com/shirohana/dynapi/tree/dev/examples/hello-world)
 - [With `express-session`](https://github.com/shirohana/dynapi/tree/dev/examples/express-session)
 - [RESTful API with Lowdb](https://github.com/shirohana/dynapi/tree/dev/examples/restful-lowdb)
+- [With `Nuxt.js` and `express-session`](https://github.com/shirohana/dynapi/tree/dev/examples/nuxt-express-session)
 
 [github]: https://github.com/shirohana/dynapi
 [changelog]: https://github.com/shirohana/dynapi/blob/dev/CHANGELOG.md
