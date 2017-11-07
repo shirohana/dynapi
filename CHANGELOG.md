@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.6] - 2017-11-07
+--------------------
+
 ### Added
 - New option: `ignorePaths`
 
@@ -274,7 +277,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.5...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.6...dev
+[0.3.6]: https://github.com/shirohana/dynapi/releases/tag/v0.3.6
 [0.3.5]: https://github.com/shirohana/dynapi/releases/tag/v0.3.5
 [0.3.4]: https://github.com/shirohana/dynapi/releases/tag/v0.3.4
 [0.3.3]: https://github.com/shirohana/dynapi/releases/tag/v0.3.3
