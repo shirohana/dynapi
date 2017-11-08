@@ -11,11 +11,29 @@ mongoose.connect(`mongodb://${host}:${port}/${dbname}`, { useMongoClient: true }
 
 if (false && process.env.NODE_ENV !== 'production') {
   const realModel = mongoose.model
-  mongoose.model = function (name, schema, collection) {
-    delete mongoose.models[name]
-    delete mongoose.modelSchemas[name]
 
-    return realModel.call(mongoose, name, schema, collection)
+  mongoose.model = function (name, schema, collection) {
+    if (mongoose.models[name]) {
+      delete mongoose.models[name]
+      delete mongoose.modelSchemas[name]
+    }
+
+    const model = realModel.call(mongoose, name, schema, collection)
+    const realDiscriminator = model.discriminator
+
+    model.discriminator = function (name, schema) {
+      if (model.discriminators && model.discriminators[name]) {
+        delete model.discriminators[name]
+      }
+
+      if (model.db.models[name]) {
+        delete model.db.models[name]
+      }
+
+      return realDiscriminator.call(model, name, schema)
+    }
+
+    return model
   }
 }
 
