@@ -58,111 +58,104 @@ if (process.env.NODE_ENV !== 'production') {
 }
 ```
 
-### Performance time!
+### What can `dynapi` do for you?
 
-Let me show what can Dynapi does for you!
+Let me show you, this is a simple example for only two route path:
 
-This example only contains two paths:
-
-| Method | Path                | Description        |
-| ------ | ----                | -----------        |
-| `GET`  | `/api/user/:userId` | Accept all request |
-| `POST` | `/api/user/:userId` | Denied the request if userId is belongs to a admin |
+| Method | Path                  | Description         |
+| ------ | ----                  | -----------         |
+| `GET`  | `/api/user/:username` | Accept all requests |
+| `POST` | `/api/user/:username` | Deny request if the user of `:username` is belongs to a admin |
 
 but we have to do:
 
-- specify `:userId` format
-- check user exists
-- check user is admin or not
+- specify `:username` format,
+- check is user exists, and
+- check user is a admin if requested in `POST` method.
 
-The structure looks like:
+This is how the project looks like:
 
 ```
 </project/
-▾ server/
   ▾ api/user/
-  |   &userId.js  // (Parameter) check is user exists from :userId
-  | ▾ :userId/
+  |   &username.js  // (Parameter) check is user exists from requested :username
+  | ▾ :username/
   | |   >check-admin.js // (Middleware) check is user a admin when POST
-  | |   get.js    // (Responser) end the request in expected
-  | |   post.js   // (Responser) end the request in expected
-  ▾ controller/
+  | |   get.js
+  | |   post.js
+  ▾ server/database/
     ▾ models/
-        user.js   // User model (won't implemented)
-    ▾ errors/
-        user-not-found.js   // Thrown when user not found
-        permission-denied.js  // Thrown when user is a admin
+    |   user.js   // User model (won't implemented)
+    | db.js
+    server.js     // Our application
 ```
 
 #### Set up server
 
+For first, we need to create a simple server with dynapi:
+
+###### server.js
+
 ```javascript
-// <project>/server.js
 const express = require('express')
 const dnp = require('dynapi')
 
 const app = express()
 
 app.use('/api', dnp({
-  srcDir: 'server',
-  routesDir: 'api',
   aliases: [
-    { from: 'controller/models', to: 'model'},
-    { from: 'controller/errors', to: 'error' }
+    { from: 'model', to: 'server/database/models' }
   ]
 }))
 
-app.listen(3000, () => { console.log('Server started') })
+app.listen(3000)
 ```
 
-These aliases make requiring path more clear:
+Pretty simple, we just create an express instance and plug dynapi onto it.
+Let's talk about options.
 
-| Prefix    | Resolved to                   |
-| ------    | -----------                   |
-| `~/`      | `./server/` (Built in)        |
-| `~model/` | `./server/controller/models/` |
-| `~error/` | `./server/controller/errors/` |
+Use `aliases` can help you import modules easier. For example, you set up the `aliases` like
+the example above, it will resolves imports like: (`/` relative from `srcDir`)
 
-#### Create the methods (Responser)
+| Prefix    | Resolved to               |
+| ------    | -----------               |
+| `~/`      | `/` (Built in)            |
+| `~model/` | `/server/database/models` |
 
-You should always end the response in a `Responser` or `Catcher` (in progress), send headers in
-`Middleware` or `Parameter` will polluted your workflow.
+#### Create methods (Responser)
+
+##### api/user/:username/get.js
 
 ```javascript
-// <project>/server/api/user/:userId/get.js
 export default (req, res) => {
   res.json({ user: req.user })
 }
 ```
 
+##### api/user/:username/post.js
+
 ```javascript
-// <project>/server/api/user/:userId/post.js
 export default (req, res) => {
   res.json({ user: req.user })
 }
 ```
-
-Seems we done nothing? Logics was moved to another files ξ( ✿＞◡❛)
 
 #### Fetch the user (Parameter)
 
+###### api/user/:username.js
+
 ```javascript
-// <project>/server/api/user/:userId.js
 import User from '~model/user'
-import UserNotFound from '~error/user-not-found'
 
-// If it took over 400ms and still not invoke next() yet,
-//   reject the method chain and response with status 408.
-export const timeout = 400
-export const pattern = /^\d+$/
+export const pattern = /^[a-z][a-zA-Z0-9_]{5,}$/
 
-// Only `:userId` matched the pattern, the method be invoked
-export default (req, res, next, userId) => {
-  // `req.params.userId` was also assigned with `:userId` but both of them are String
+// Only if the part of `:username` matched the pattern, the method will be invoked
+export default (req, res, next, username) => {
+  const user = User.findOne({ username })
 
-  const user = User.find(+userId)
-  if (!user)
-    return next(new UserNotFound(userId))
+  if (!user) {
+    return res.sendStatus(404)
+  }
 
   req.user = user
   next()
@@ -171,71 +164,43 @@ export default (req, res, next, userId) => {
 
 #### Check is user a admin (Middleware)
 
+###### api/user/:username/>check-admin.js
+
 ```javascript
-// <project>/server/api/user/:userId/>check-admin.js
-import PermissionDenied from '~error/permission-denied'
-
+// `req.user` was already set
 export default (req, res, next) => {
-  // `req.user` has already set
-  if (req.method === 'GET')
+  if (req.method === 'GET') {
     return next()
+  }
 
-  if (req.user.is_admin)
-    return next(new PermissionDenied())
+  if (req.user.is_admin) {
+    return res.sendStatus(403)
+  }
 
   next()
 }
 ```
 
-#### Error handling (Plain)
-
-You can throw a custom error that attached some informations like response status, dynapi will
-send the `status` (if have) and log the `message` with stacktrace when `options.dev` is true.
-
-After `Catcher` implemented, you can also handle these errors thrown by `next()` by yourself.
-
-```javascript
-// <srcDir>/controller/errors/user-not-found.js
-export default class UserNotFound extends Error {
-  constructor (message) {
-    super(message)
-    this.status = 404
-  }
-}
-```
-
-```javascript
-// <srcDir>/controller/errors/permission-denied.js
-export default class PermissionDenied extends Error {
-  constructor (message) {
-    super(message)
-    this.status = 403
-  }
-}
-```
-
-If you don't need the stacktraces, you can also throw a literal object like `next({ status: 403 })`.
-
 #### What's next
 
 You can find more examples below, and welcome to provide yours!
 
-If these examples are not enough for you, if you got any questions, never shy to send me an issue (๑ơ ω ơ)
+If these examples are not enough to you, or if you got any question, never shy to send me an issue (๑ơ ω ơ)
 
 Options
 -------
 
 | Property          | Type                | Default                                           | Description |
 | ---               | ---                 | ---                                               | --- |
-| `dev`             | Boolean             | process.env.NODE_ENV !== 'production'             | If true, create a file watcher watches `routesDir` and update renderer dynamically. |
-| `rootDir`         | String              | process.cwd()                                     | The project root. Normally is where your `package.json` and `node_modules` are. |
-| `srcDir`          | String              | `rootDir`                                         | Your source code root directory. Used to solve relative requires and aliases. |
-| `routesDir`       | String              | 'api'                                             | The root of routes flies. Dynapi will generate routes from the directory structure of `routesDir` |
-| `loose`           | Boolean             | false                                             | If true, dynapi will invoke `next()` when requested path doesn't match any routes. |
-| `aliases`         | Array&lt;String \| Object&gt; | []                                      | Aliases to be resolved from requires. There's a example below. |
-| `responseTimeout` | Number              | 800 (ms)                                          | How much time can a middleware used. If exceeds, reject the request with status 408. |
-| `symbol`          | Object              | { middleware: '>', parameter: '&', catcher: '#' } | Which symbol to used to distinguish different type of files. |
-| `methods`         | Array&lt;String&gt; | See [here][methods]                               | Only listed methods would be transformed to routes. |
+| `dev`             | Boolean             | process.env.NODE_ENV !== 'production'             | If true, dynapi watches `routesDir` and rebuild if any changes. Else dynapi will only build once when started. |
+| `rootDir`         | String              | process.cwd()                                     | The project root. Normally is where your `package.json` and `node_modules` is. |
+| `srcDir`          | String              | `rootDir`                                         | The root directory of your source code. Your relative requirings and aliases is relative from here. |
+| `routesDir`       | String              | 'api'                                             | The root of routes flies. Dynapi will generate routes from this directory. |
+| `loose`           | Boolean             | false                                             | If true, dynapi will call `next()` when requested path does not trigger `res.end` after all handler executed. |
+| `aliases`         | Array&lt;String \| Object&gt; | []                                      | Shorten your require paths. |
+| `responseTimeout` | Number              | 800 (ms)                                          | How much time can spend on each middleware. |
+| `symbol`          | Object              | { middleware: '>', parameter: '&', catcher: '#' } | To distinguish which file is `Middleware`, `Parameter` and `Responser`. |
+| `methods`         | Array&lt;String&gt; | See [here][methods]                               | Only listed methods will be generate to routes. |
 
 [methods]: https://github.com/shirohana/dynapi/blob/dev/lib/common/options.js#L57-L82
 
