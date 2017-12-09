@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+[0.3.7] - 2017-12-09
+--------------------
+
 > Hello, uh... I lived in a small country and it is a country with conscription policy.
 >
 > So... you knew it.
@@ -288,7 +291,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.6...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.7...dev
+[0.3.7]: https://github.com/shirohana/dynapi/releases/tag/v0.3.7
 [0.3.6]: https://github.com/shirohana/dynapi/releases/tag/v0.3.6
 [0.3.5]: https://github.com/shirohana/dynapi/releases/tag/v0.3.5
 [0.3.4]: https://github.com/shirohana/dynapi/releases/tag/v0.3.4
