@@ -4,6 +4,17 @@ Changelog
 [Unreleased]
 ------------
 
+> Hello, uh... I lived in a small country and it is a country with conscription policy.
+>
+> So... you knew it.
+>
+> Sorry for no updating for past weeks, I'll be back in `3~4 weeks` and keep compleing all my project
+> which was in progressing.
+>
+> I also got many new ideas during the hard time, I can't wait to wrote then down!
+
+- Upgrade dependencies
+
 [0.3.6] - 2017-11-07
 --------------------
 
