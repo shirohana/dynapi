@@ -4,6 +4,11 @@ Changelog
 [Unreleased]
 ------------
 
+### Internal
+
+- Removed dependencies:
+  - `rollup-plugin-alias`
+
 [0.3.7] - 2017-12-09
 --------------------
 
