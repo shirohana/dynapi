@@ -22,10 +22,10 @@ export default {
   input: lib('index.js'),
   output: {
     file: dist('dynapi.js'),
-    format: 'cjs'
+    format: 'cjs',
+    sourcemap: true
   },
   external: ['fs', 'path', 'module', 'vm'].concat(dependencies),
-  sourcemap: true,
   plugins: [
     rollupCommonJS(),
     rollupAlias(Object.assign({
