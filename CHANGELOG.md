@@ -6,6 +6,8 @@ Changelog
 
 ### Internal
 
+- Remove internal properties `options.build.*Dir` and related functions
+
 - Removed dependencies:
   - `rollup-plugin-alias`
   - `tappable`
