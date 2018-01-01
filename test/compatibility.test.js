@@ -25,9 +25,4 @@ test.serial('With Connect', async t => {
   t.deepEqual(res.body, {
     message: 'It works!'
   })
-
-  // For coverage
-  server.close(() => {
-    console.log('Closed') // eslint-disable-line no-console
-  })
 })

@@ -10,7 +10,6 @@ const r = (p) => join(rootDir, p)
 const resource = (p) => join(rootDir, 'resources', p)
 
 let server = null
-let watcher = null // To be closed
 
 const run = async (callback) => {
   callback()
@@ -33,7 +32,6 @@ test.before(async () => {
 
   const app = await nrequire.from(rootDir)('./server-express')()
   server = request(app)
-  watcher = app.watcher
 
   // I don't know why it works :(
   if (/^linux/.test(process.platform)) {
@@ -139,7 +137,6 @@ test.serial('Remove parameter', async t => {
 })
 
 test.after(async () => {
-  await watcher.close()
   await Promise.all([
     fs.remove(r('api')),
     fs.remove(r('controller')),

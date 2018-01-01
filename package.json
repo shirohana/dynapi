@@ -41,8 +41,7 @@
     "debug": "^3.0.1",
     "glob": "^7.1.2",
     "native-require": "^1.1.2",
-    "source-map-support": "^0.5.0",
-    "tappable": "^1.1.0"
+    "source-map-support": "^0.5.0"
   },
   "devDependencies": {
     "ava": "^0.24.0",

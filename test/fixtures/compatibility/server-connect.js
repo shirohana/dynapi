@@ -12,8 +12,5 @@ module.exports = function createServer () {
 
   app.use('/api', dynapi.middleware())
 
-  // Calling close() for coverage
-  app.close = dynapi.close.bind(dynapi)
-
   return new Builder(dynapi).build().then(() => app)
 }

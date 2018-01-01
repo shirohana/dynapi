@@ -8,6 +8,7 @@ Changelog
 
 - Removed dependencies:
   - `rollup-plugin-alias`
+  - `tappable`
 
 [0.3.7] - 2017-12-09
 --------------------
