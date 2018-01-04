@@ -8,6 +8,8 @@ Changelog
 
 - Remove internal properties `options.build.*Dir` and related functions
 
+- Refactor `RouterContext` and `Utils.Routes`
+
 - Removed dependencies:
   - `rollup-plugin-alias`
   - `tappable`
