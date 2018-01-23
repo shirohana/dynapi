@@ -4,6 +4,10 @@ import fs from 'fs-extra'
 import request from 'supertest'
 import nrequire from 'native-require'
 
+process.on('unhandledRejection', err => {
+  throw err
+})
+
 const rootDir = join(__dirname, './fixtures/watch')
 
 const r = (p) => join(rootDir, p)

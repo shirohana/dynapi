@@ -3,6 +3,10 @@ import { join } from 'path'
 import request from 'supertest'
 import nrequire from 'native-require'
 
+process.on('unhandledRejection', err => {
+  throw err
+})
+
 const _require = nrequire.from(join(__dirname, './fixtures/build'))
 
 let server = null
@@ -67,7 +71,7 @@ test('GET /api/specials/timeout-zero <-- Timeout === 0 ', async t => {
 
 test('GET /api/specials/exports-not-function <-- Default export is not a function', async t => {
   const res = await server.get('/api/specials/exports-not-function')
-  t.is(res.status, 408)
+  t.is(res.status, 500)
 })
 
 test('GET /api/specials/syntax-error <-- Build failed path would got 500', async t => {

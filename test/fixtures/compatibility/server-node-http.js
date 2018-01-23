@@ -1,14 +1,19 @@
 const http = require('http')
-const { Dynapi, Builder } = require('../../../index')
+const dynapi = require('../../../index')
 
 const options = {
   dev: true,
-  rootDir: __dirname
+  watch: false,
+  router: {
+    srcdir: 'test/fixtures/compatibility',
+    routesdir: 'api'
+  }
 }
 
 module.exports = function createServer () {
-  const dynapi = new Dynapi(options)
-  const app = http.createServer(dynapi.middleware())
+  const app = http.createServer(dynapi(options))
 
-  return new Builder(dynapi).build().then(() => app)
+  return new Promise(resolve => {
+    setTimeout(() => resolve(app), 2000)
+  })
 }

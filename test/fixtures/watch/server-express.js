@@ -1,22 +1,24 @@
 const express = require('express')
-const { Dynapi, Watcher } = require('../../../index')
+const dynapi = require('../../../index')
 
 const options = {
   dev: true,
-  rootDir: __dirname,
-  routesDir: 'api',
-  aliases: [
-    'controller/model'
-  ]
+  watch: true,
+  router: {
+    srcdir: 'test/fixtures/watch',
+    routesdir: 'api',
+    aliases: [
+      'controller/model'
+    ]
+  }
 }
 
 module.exports = function createServer () {
-  const dynapi = new Dynapi(options)
-  const watcher = new Watcher(dynapi)
-
   const app = express()
 
-  app.use('/api', dynapi.middleware())
+  app.use('/api', dynapi(options))
 
-  return watcher.watch().then(() => app)
+  return new Promise(resolve => {
+    setTimeout(() => resolve(app), 2000)
+  })
 }

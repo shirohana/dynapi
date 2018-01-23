@@ -16,7 +16,7 @@ export default {
     format: 'cjs',
     sourcemap: true
   },
-  external: ['fs', 'path', 'module', 'vm'].concat(dependencies),
+  external: ['assert', 'fs', 'path', 'module', 'vm'].concat(dependencies),
   plugins: [
     rollupCommonJS(),
     rollupBabel({
