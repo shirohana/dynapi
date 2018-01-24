@@ -1,5 +1,8 @@
 {
   "name": "restful",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.1",

@@ -4,25 +4,33 @@
 
 ### Install dependencies
 
+##### Using NPM
+```
+$ npm install
+```
+
+##### Using Yarn
 ```
 $ yarn install
 ```
 
-### Start the server
+### Start server
 
 ```
 $ node index.js
 ```
 
-In default, server starts on [http://127.0.0.1:3000][serv], you can try them through `curl` or
-other tools like [Postman][postman].
+In default, server starts on [http://127.0.0.1:3000][serv], you can try them by `curl` or
+other GUI tools like [Postman][postman].
 
-Database was stored in a local file `db.json`, which will be auto-generated in the first start and
-values are fetched from [JSON Placeholder][json_placeholder](if available).
+Database was stored in `./db.json`, which will be fetched from [JSON Placeholder][json_placeholder]
+in the first time starts the app.
 
-### Availabled paths
+##
 
-#### Resource
+### API
+
+##### Resource
 
 | Method | URL                   |
 | ------ | --------------------- |
@@ -33,7 +41,7 @@ values are fetched from [JSON Placeholder][json_placeholder](if available).
 | GET    | [/todos][todos]       |
 | GET    | [/users][users]       |
 
-#### Routes
+##### Routes
 
 | Method | URL                      |
 | ------ | ------------------------ |

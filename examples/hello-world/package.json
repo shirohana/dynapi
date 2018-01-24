@@ -1,5 +1,8 @@
 {
   "name": "hello-dynapi",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "dynapi": "latest",
     "express": "^4.15.4"

@@ -5,7 +5,7 @@ const host = process.env.HOST || '127.0.0.1'
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
-const dnp = require('dynapi')
+const dnp = require('../../index')
 const { Nuxt, Builder: NuxtBuilder } = require('nuxt')
 
 const nuxtConfig = require('./nuxt.config.js')
@@ -32,9 +32,11 @@ function initSession () {
 
 function initAPI () {
   app.use(dnp({
-    routesDir: 'routes',
     loose: true,
-    aliases: [],
+    router: {
+      srcdir: '.',
+      routesdir: './routes'
+    },
     ignorePaths: [
       /^\/_nuxt\//,
       '/__webpack_hmr'

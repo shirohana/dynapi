@@ -2,23 +2,37 @@
 
 ### Install
 
+##### Using NPM
+```
+$ npm install
+```
+
+##### Using Yarn
 ```
 $ yarn
 ```
 
 ### Start server
 
+##### Using NPM
+```
+$ npm run dev
+```
+
+##### Using Yarn
 ```
 $ yarn dev
 ```
 
+##
+
 ### Key point
 
-You would need to delete cached models and schemas to ensure `mongoose` will re-compile your
-changes, or ``OverwriteModelError: Cannot overwrite `User` model once compiled.`` will be thrown.
+You need to delete cached models and schemas to ensure `mongoose` will re-compile your
+changes, or ``OverwriteModelError: Cannot overwrite `User` model once compiled.`` would be thrown.
 
 ```javascript
-if (false && process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   const realModel = mongoose.model
 
   mongoose.model = function (name, schema, collection) {
@@ -51,17 +65,23 @@ if (false && process.env.NODE_ENV !== 'production') {
 
 ```
 </examples/with-mongoose/
-▾ api/
-  ▾ user/
-      >check-body.js
-      delete(:username).js
-      post.js
-      postVerify.js
-  ▾ users/
-      get.js
-▾ server/database/
-  ▸ models/
-    db.js
+▾ server/
+  ▾ api/
+  | ▾ user/
+  | |   >check-body.js
+  | |   delete(:username).js
+  | |   post.js
+  | |   postVerify.js
+  | ▾ users/
+  | |  get.js
+  ▾ database/
+  | ▾ models/
+  | |   user.js
+  | | db.js
+  ▾ errors/
+  |   bad-request.js
+  |   wrong-password.js
+  |   user-not-found.js
   index.js
   package.json
   README.md
