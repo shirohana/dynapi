@@ -1,12 +1,3 @@
-> Hello, uh... I lived in a small country and it is a country with conscription policy.
->
-> So... you knew it.
->
-> Sorry for no updating for past weeks, I'll be back in `3~4 weeks` and keep compleing all my project
-> which was in progressing.
->
-> I also got many new ideas during the hard time, I can't wait to wrote then down!
-
 Dynapi
 ======
 
@@ -19,6 +10,10 @@ Dynapi
 
 Features
 --------
+
+> :exclamation: **Outdated**
+>
+> Please checkout our last release on [`CHANGELOG`][changelog], documentation will be published as soon as possible ⸗‵  ᴗ ‵⸗
 
 Dynapi watches all files inside your `routesDir` (default: `./api`) and update renderer according
 to your routesDir structure immediatly.
@@ -112,9 +107,13 @@ const dnp = require('dynapi')
 const app = express()
 
 app.use('/api', dnp({
-  aliases: [
-    { from: 'model', to: 'server/database/models' }
-  ]
+  router: {
+    srcdir: '.',
+    routesdir: './api',
+    aliases: [
+      { from: 'model', to: 'server/database/models' }
+    ]
+  }
 }))
 
 app.listen(3000)
@@ -156,7 +155,7 @@ export default (req, res) => {
 ```javascript
 import User from '~model/user'
 
-export const pattern = /^[a-z][a-zA-Z0-9_]{5,}$/
+export const pattern = /[a-z][a-zA-Z0-9_]{5,}/
 
 // Only if the part of `:username` matched the pattern, the method will be invoked
 export default (req, res, next, username) => {
@@ -198,6 +197,10 @@ If these examples are not enough to you, or if you got any question, never shy t
 
 Options
 -------
+
+> :exclamation: **Outdated**
+>
+> Please checkout our last release on [`CHANGELOG`][changelog], documentation will be published as soon as possible ⸗‵  ᴗ ‵⸗
 
 | Property          | Type                | Default                                           | Description |
 | ---               | ---                 | ---                                               | --- |

@@ -4,27 +4,63 @@ Changelog
 [Unreleased]
 ------------
 
+__:exclamation: This release contains breaking changes :exclamation:__
+
+### Changed
+- :exclamation: Change options of `factory` and almost internal classes (see [below](#0.4.0-refactor-options))
+
 ### Internal
+- Remove unused code
 
-- Remove internal properties `options.build.*Dir` and related functions
+- Change relations between classes for lower coupling
 
-- Refactor `RouterContext` and `Utils.Routes`
+- Refactor the whole rendering algorithm
 
-- Removed dependencies:
-  - `rollup-plugin-alias`
-  - `tappable`
+### Details
+<a id="0.4.0-refactor-options"></a>
+<details><summary>Change of options</summary>
+
+  For planning in the future, we decided to separate options from `factory` and other
+  internal classes to reduce relies on each class.
+
+  Quick look:
+
+  ```javascript
+  const factoryOptions = {
+    routers: [], // If you have more than 1 router, list them in it
+    router: {
+      root: '/', // Just like `app.use()`. Default '/'
+      rootdir: process.cwd(),  <-------.     // Default `process.cwd()`
+      srcdir: './server',    <---------|-.   // Required. Relative from `rootdir`
+      routesdir: './api',   <----------|-|-. // Required. Relative from `srcdir`
+      prefixes: { ... },   <--------.  | | |
+      aliases: [ ... ],   <-------. |  | | |
+      methods: [ ... ],  <------. | |  | | |
+    },                          | | |  | | |
+    // rootDir: process.cwd(), -|-|-|--' | |
+    // srcDir: './server',   ---|-|-|----' |
+    // routesDir: './api',  ----|-|-|------'
+    // symbol: { ... },    -----|-|-'
+    // aliases: [ ... ],  ------|-'
+    // methods: [ ... ], -------'
+    defaultTimeout: 800  <----.
+    // responseTimeout: 800 --'
+  }
+  ```
+
+  \*Now dynapi has no default router setted. To work like before, you can just use:
+
+  ```javascript
+  const dynapi = require('dynapi')
+
+  app.use(dynapi({
+    router: { srcdir: '.', routesdir: 'api' }
+  }))
+  ```
+</details>
 
 [0.3.7] - 2017-12-09
 --------------------
-
-> Hello, uh... I lived in a small country and it is a country with conscription policy.
->
-> So... you knew it.
->
-> Sorry for no updating for past weeks, I'll be back in `3~4 weeks` and keep compleing all my project
-> which was in progressing.
->
-> I also got many new ideas during the hard time, I can't wait to wrote then down!
 
 - Upgrade dependencies
 
