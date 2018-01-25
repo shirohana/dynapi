@@ -4,10 +4,17 @@ Changelog
 [Unreleased]
 ------------
 
-__:exclamation: This release contains breaking changes :exclamation:__
+__:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0.4.0-migrating)) :exclamation:__
+
+### Added
+- :sparkles: New feature: `plugin-support` (see [0.4.0 Plugins](#0.4.0-plugins))
+
+- New built-in plugin: `ignore-paths`
 
 ### Changed
-- :exclamation: Change options of `factory` and almost internal classes (see [below](#0.4.0-refactor-options))
+- :exclamation: Adjustment options of `factory` and almost internal classes (see [0.4.0 Overview](#0.4.0-overview))
+
+- Now `next(error)` will be handled by [`finalhandler`](https://github.com/pillarjs/finalhandler)
 
 ### Internal
 - Remove unused code
@@ -17,13 +24,14 @@ __:exclamation: This release contains breaking changes :exclamation:__
 - Refactor the whole rendering algorithm
 
 ### Details
-<a id="0.4.0-refactor-options"></a>
-<details><summary>Change of options</summary>
+<a id="0.4.0-overview"></a>
+<details><summary>Overview</summary>
 
-  For planning in the future, we decided to separate options from `factory` and other
-  internal classes to reduce relies on each class.
+  ###
+  > For planning in the future, we decided to separate options from `factory` and other
+  > internal classes to reduce relies on each other.
 
-  Quick look:
+  \*Now dynapi has no default router setted. To work like before, you can just use:
 
   ```javascript
   const factoryOptions = {
@@ -36,25 +44,108 @@ __:exclamation: This release contains breaking changes :exclamation:__
       prefixes: { ... },   <--------.  | | |
       aliases: [ ... ],   <-------. |  | | |
       methods: [ ... ],  <------. | |  | | |
-    },                          | | |  | | |
-    // rootDir: process.cwd(), -|-|-|--' | |
-    // srcDir: './server',   ---|-|-|----' |
-    // routesDir: './api',  ----|-|-|------'
-    // symbol: { ... },    -----|-|-'
-    // aliases: [ ... ],  ------|-'
-    // methods: [ ... ], -------'
-    defaultTimeout: 800  <----.
-    // responseTimeout: 800 --'
+      plugins: [                | | |  | | |
+        ['ignore-path', [...]] <|-|-|--|-|-|--.
+      ],                        | | |  | | |  |
+      ignore: [...],  <---------|-|-|--|-|-|--.
+    },                          | | |  | | |  |
+    // rootDir: process.cwd(), -|-|-|--' | |  |
+    // srcDir: './server',   ---|-|-|----' |  |
+    // routesDir: './api',  ----|-|-|------'  |
+    // symbol: { ... },    -----|-|-'         |
+    // aliases: [ ... ],  ------|-'           |
+    // methods: [ ... ], -------'             |
+    defaultTimeout: 800,  <----.              |
+    // responseTimeout: 800  --'              |
+    // ignorePaths: [...]  -------------------'
   }
   ```
+</details>
 
-  \*Now dynapi has no default router setted. To work like before, you can just use:
+<a id="0.4.0-plugins"></a>
+<details><summary>Plugins support</summary>
+
+  ###
+  > Since we think it (dynapi) should only do one simple thing: Route rendering, we moved some
+  > features that they're not always necessary from the core to `plugins`, to keep the core purely.
+
+  These removed features were rewrote as multiple `plugins` and they're still shipped with `dynapi`
+  as `built-in plugins`.
+
+  PLugins can be installed in two ways:
+
+  ##### Use `plugins` options
+  ```javascript
+  app.use('/', dynapi({
+    plugins: [
+      ['serve-static', 'public/ftp', { index: ['index.html', 'index.htm'] }]
+    ]
+  }))
+  ```
+
+  ##### Use alias (built-in plugins only)
+  ```javascript
+  app.use('/', dynapi({
+    statics: [
+      ['public/ftp', { root: '/ftp', index: ['index.html', 'index.htm'] }],
+      ['public/images', { root: '/images' }]
+    ]
+  }))
+  ```
+
+  ### Plugin `ignore-paths`
+  Prevent some path pass through dynapi.
+
+  - Type: `Array<String|RegExp>`
+
+  Usage:
+  ```javascript
+  app.use('/', dynapi({
+    router: {
+      ...,
+      ignore: ['/__webpack_hmr']
+    }
+  }))
+  // or
+  app.use('/', dynapi({
+    router: {
+      ...,
+      plugins: [
+        ['ignore-paths', ['/__webpack_hmr']]
+      ]
+    }
+  }))
+  ```
+
+</details>
+
+<a id="0.4.0-migrating"></a>
+<details><summary>Migrating from 0.3.7</summary>
+
+  ### 1. Rename options
+
+  \*Pay attention to the case
 
   ```javascript
-  const dynapi = require('dynapi')
-
   app.use(dynapi({
-    router: { srcdir: '.', routesdir: 'api' }
+    router: {
+      rootdir,  <----------.
+      srcdir,  <-----------|-.   // Use '.' if no value
+      routesdir,  <--------|-|-. // Use './api' if no value
+      prefixes,  <--.      | | |
+      aliases,  <---|-.    | | |
+      methods,  <---|-|-.  | | |
+      ignore  <-----|-|-|--|-|-|--.
+    },              | | |  | | |  |
+    // rootDir, ----|-|-|--' | |  |
+    // srcDir, -----|-|-|----' |  |
+    // routesDir, --|-|-|------'  |
+    // symbol,   ---' | |         |
+    // aliases, ------' |         |
+    // methods, --------'         |
+    defaultTimeout,  <-----.      |
+    // responseTimeout,  --'      |
+    // ignorePaths ---------------'
   }))
   ```
 </details>
