@@ -1,114 +1,150 @@
 import test from 'ava'
-import { join } from 'path'
 import request from 'supertest'
-import nrequire from 'native-require'
+import _require from 'native-require'
 
 process.on('unhandledRejection', err => {
   throw err
 })
 
-const _require = nrequire.from(join(__dirname, './fixtures/build'))
+const createServer = _require.from(__dirname).require('./fixtures/build/server')
 
-let server = null
+let server
 
 test.before(async () => {
-  server = request(await _require('./server-express')())
+  server = request(await createServer())
 })
 
-test('GET /api/page/news  <-- Complex filename with parentheses', async t => {
-  const res = await server.get('/api/page/news')
+test('Should response a simple request', async t => {
+  const res = await server.get('/')
   t.is(res.status, 200)
-  t.deepEqual(res.body, { page: 'news' })
+  t.is(res.text, 'Homepage')
 })
 
-test('POST /api/flights/taiwan-A68 <-- Complex ParamRoute', async t => {
-  const res = await server.post('/api/flights/taiwan-A68')
-  t.is(res.status, 200)
-  t.deepEqual(res.body, { country: 'TAIWAN', flight: 'A68' })
-})
-
-test('GET /api/user/1  <-- Exists user', async t => {
-  const res = await server.get('/api/user/1')
-  t.is(res.status, 200)
-  t.deepEqual(res.body, {
-    name: 'Hana Shiro',
-    isAdmin: true,
-    username: 'shirohana',
-    email: 'shirohana0608@gmail.com'
-  })
-})
-
-test('GET /api/user/3  <-- Non-exists user', async t => {
-  const res = await server.get('/api/user/3')
+test('Should 404 if method/path was not found', async t => {
+  const res = await server.put('/')
   t.is(res.status, 404)
 })
 
-test('POST /api/user/1  <-- Request with token', async t => {
-  const res = await server.post('/api/user/1').send({ token: 'TOKEN' })
-  t.is(res.status, 200)
-  t.deepEqual(res.body, { success: true })
+test('Should handle nested static routes', async t => {
+  t.plan(3)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/a')
+      t.is(res.text, 'GET /a')
+    })(),
+    (async () => {
+      const res = await server.get('/a/b')
+      t.is(res.text, 'GET /a/b')
+    })(),
+    (async () => {
+      const res = await server.get('/a/b/c')
+      t.is(res.text, 'GET /a/b/c')
+    })()
+  ])
 })
 
-test('POST /api/user/1  <-- Request without token', async t => {
-  const res = await server.post('/api/user/1')
-  t.is(res.status, 403)
+test('Should process middlewares', async t => {
+  const res = await server.get('/m1')
+  t.is(res.text, 'm1/>0')
 })
 
-test('GET /api/user/shirohana  <-- Timeout was too short', async t => {
-  const res = await server.get('/api/user/shirohana')
-  t.is(res.status, 408)
+test('Throw errors in middlewares', async t => {
+  t.plan(4)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/m2')
+      t.is(res.text, 'GET will response 200')
+    })(),
+    (async () => {
+      const res = await server.post('/m2')
+      t.is(res.status, 500, 'Throw 500 in default')
+    })(),
+    (async () => {
+      const res = await server.put('/m2')
+      t.is(res.status, 400, 'Specify status code')
+    })(),
+    (async () => {
+      const res = await server.patch('/m2')
+      t.is(res.status, 401, 'Throw literal status code')
+    })()
+  ])
 })
 
-test('POST /api/user/shirohana  <-- Timeout === 0 will be rejected by 408', async t => {
-  const res = await server.post('/api/user/shirohana')
-  t.is(res.status, 408)
+test('Should handle routes which contain params', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/p1/meow')
+      t.is(res.text, 'Hello, meow. GET /p1/meow')
+    })(),
+    (async () => {
+      const res = await server.get('/p1/nyan')
+      t.is(res.text, 'Hello, nyan. GET /p1/nyan')
+    })()
+  ])
 })
 
-test('GET /api/specials/timeout-zero <-- Timeout === 0 ', async t => {
-  const res = await server.get('/api/specials/timeout-zero')
-  t.is(res.status, 408)
+test('Should according to the `pattern` export of Paramter to choose correct path', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/p2/0608')
+      t.is(res.text, 'Is decimal')
+    })(),
+    (async () => {
+      const res = await server.get('/p2/0x2aff')
+      t.is(res.text, 'Is hexadecimal')
+    })()
+  ])
 })
 
-test('GET /api/specials/exports-not-function <-- Default export is not a function', async t => {
-  const res = await server.get('/api/specials/exports-not-function')
-  t.is(res.status, 500)
+test('Should work with complex route name', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/p3/prefix-suf-fix')
+      t.is(res.text, 'Reversed: suf-fix-prefix')
+    })(),
+    (async () => {
+      const res = await server.get('/p3/not:match')
+      t.is(res.status, 404)
+    })()
+  ])
 })
 
-test('GET /api/specials/syntax-error <-- Build failed path would got 500', async t => {
-  const res = await server.get('/api/specials/syntax-error')
-  t.is(res.status, 500)
+test('Should handle complex filename', async t => {
+  t.plan(4)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/complex/a-b')
+      t.is(res.text, 'get-a-b')
+    })(),
+    (async () => {
+      const res = await server.get('/complex/ab')
+      t.is(res.text, 'getAB')
+    })(),
+    (async () => {
+      const res = await server.get('/complex/a')
+      t.is(res.text, 'get(a)')
+    })(),
+    (async () => {
+      const res = await server.get('/complex/a/b')
+      t.is(res.text, 'get(a)(b)')
+    })()
+  ])
 })
 
-test('GET /api/specials/throwing-plain-text <-- Coverage', async t => {
-  const res = await server.get('/api/specials/throwing-plain-text')
-  t.is(res.status, 500)
+test('Should resolve aliases', async t => {
+  const res = await server.get('/user/3')
+  t.is(res.text, 'User::3')
 })
 
-test('GET /api/specials/throwing-plain-error <-- Coverage', async t => {
-  const res = await server.get('/api/specials/throwing-plain-error')
-  t.is(res.status, 500)
+test('Should response errors when throw', async t => {
+  const res = await server.get('/user/666')
+  t.is(res.status, 404)
 })
 
-test('GET /api/specials/script::new <-- Converage', async t => {
-  const res = await server.get('/api/specials/script::new')
-  t.is(res.status, 200)
-  t.deepEqual(res.body, {
-    message: 'new Script()'
-  })
-})
-
-test('GET /api/specials/c:\\\\program files <-- Converage', async t => {
-  const res = await server.get(encodeURI('/api/specials/c:\\\\program files'))
-  t.is(res.status, 200)
-  t.deepEqual(res.body, {
-    message: 'You are sooo MS'
-  })
-})
-
-test('GET /api/loose-path <-- Should passed through dynapi', async t => {
-  const res = await server.get('/api/loose-path')
-  t.is(res.status, 200)
-  t.deepEqual(res.body, {
-    message: 'passed through dynapi'
-  })
+test('Should resolve modules', async t => {
+  const res = await server.get('/user/files')
+  t.is(res.text, ':id,getFiles.js')
 })
