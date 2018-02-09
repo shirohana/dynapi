@@ -19,6 +19,9 @@ function createServer () {
       aliases: [
         'models'
       ]
+    }, {
+      root: '/racer',
+      routesdir: 'routes4'
     }]
   }))
   return new Promise(resolve => setTimeout(() => resolve(app), 2000))

@@ -148,3 +148,22 @@ test('Should resolve modules', async t => {
   const res = await server.get('/user/files')
   t.is(res.text, ':id,getFiles.js')
 })
+
+test('Should 408 when next() was not be called', async t => {
+  const res = await server.get('/racer/a')
+  t.is(res.status, 408)
+})
+
+test('Should 408 when responser took too much time', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/racer/b/1')
+      t.is(res.status, 408)
+    })(),
+    (async () => {
+      const res = await server.get('/racer/b/2')
+      t.is(res.status, 408)
+    })()
+  ])
+})
