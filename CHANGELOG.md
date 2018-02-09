@@ -16,6 +16,9 @@ __:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0
 
 - Now `next(error)` will be handled by [`finalhandler`](https://github.com/pillarjs/finalhandler)
 
+### Deprecated
+- Deprecate `export.ignore` property of _Responsers_, _Middlewares_ and _Parameters_
+
 ### Internal
 - Remove unused code
 
