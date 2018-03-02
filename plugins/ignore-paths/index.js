@@ -23,7 +23,7 @@ function dynapiPluginIgnorePaths (ignorePaths) {
       return
     }
 
-    router.plugin('beforeRender', (status, req, res, { skip }) => {
+    router.plugin('beforeRequest', (status, req, res, { skip }) => {
       /* istanbul ignore if */
       if (status.isSkipped) {
         return
