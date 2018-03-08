@@ -22,7 +22,7 @@ export default {
     rollupBabel({
       exclude: 'node_modules/**',
       presets: [
-        ['env', {
+        ['@babel/preset-env', {
           targets: { node: 'current' },
           modules: false
         }]
