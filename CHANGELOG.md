@@ -4,12 +4,32 @@ Changelog
 [Unreleased]
 ------------
 
-__:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0.4.0-migrating)) :exclamation:__
+__:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0.4.0-migrating))__
+
+__:exclamation: Upgrade engine: 'node >= 8.0.0'__
 
 ### Added
 - :sparkles: New feature: `plugin-support` (see [0.4.0 Plugins](#0.4.0-plugins))
 
-- New built-in plugin: `ignore-paths`
+- New built-in plugin: `ignore-paths` (For _Router_)
+
+- New built-in plugin: `debug` (For _Router_)
+
+- New _Router_ option `build.plugins` which allows custom transform plugins for _Builder_
+
+    For example:
+
+    ```javascript
+    app.use(dynapi({
+      router: {
+        build: {
+          plugins: ['@babel/plugin-proposal-pipeline-operator']
+        }
+      }
+    }))
+    ```
+
+    which allows you using `pipeline-operator` in your routes.
 
 ### Changed
 - :exclamation: Adjustment options of `factory` and almost internal classes (see [0.4.0 Overview](#0.4.0-overview))
