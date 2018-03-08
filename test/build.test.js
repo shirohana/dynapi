@@ -167,3 +167,8 @@ test('Should 408 when responser took too much time', async t => {
     })()
   ])
 })
+
+test.only('Should allow custom builder plugins', async t => {
+  const res = await server.get('/builder-plugins/pipeline-operator')
+  t.is(res.text, 'Hello, hello!')
+})

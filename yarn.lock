@@ -229,6 +229,12 @@
   dependencies:
     "@babel/plugin-syntax-optional-catch-binding" "7.0.0-beta.40"
 
+"@babel/plugin-proposal-pipeline-operator@^7.0.0-beta.40":
+  version "7.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-pipeline-operator/-/plugin-proposal-pipeline-operator-7.0.0-beta.40.tgz#768bbde06bb7f1695bf4eef79c1702a269f6c08a"
+  dependencies:
+    "@babel/plugin-syntax-pipeline-operator" "7.0.0-beta.40"
+
 "@babel/plugin-proposal-unicode-property-regex@7.0.0-beta.40":
   version "7.0.0-beta.40"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-unicode-property-regex/-/plugin-proposal-unicode-property-regex-7.0.0-beta.40.tgz#1fb2c29c8bd88d5fff82ec080dbe24e7126ec460"
@@ -247,6 +253,10 @@
 "@babel/plugin-syntax-optional-catch-binding@7.0.0-beta.40":
   version "7.0.0-beta.40"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-optional-catch-binding/-/plugin-syntax-optional-catch-binding-7.0.0-beta.40.tgz#2e3de0919d05136bb658172ef9ba9ef7e84bce9e"
+
+"@babel/plugin-syntax-pipeline-operator@7.0.0-beta.40":
+  version "7.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-pipeline-operator/-/plugin-syntax-pipeline-operator-7.0.0-beta.40.tgz#602277fa156b41953eb95b154c39d1167a8c98b2"
 
 "@babel/plugin-transform-arrow-functions@7.0.0-beta.40":
   version "7.0.0-beta.40"

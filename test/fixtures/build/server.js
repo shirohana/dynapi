@@ -22,6 +22,12 @@ function createServer () {
     }, {
       root: '/racer',
       routesdir: 'routes4'
+    }, {
+      root: '/builder-plugins',
+      routesdir: 'routes5',
+      build: {
+        plugins: ['@babel/plugin-proposal-pipeline-operator']
+      }
     }]
   }))
   return new Promise(resolve => setTimeout(() => resolve(app), 2000))
