@@ -17,7 +17,8 @@
     "framework"
   ],
   "files": [
-    "dist/"
+    "dist/",
+    "plugins/"
   ],
   "nyc": {
     "include": [
