@@ -172,3 +172,36 @@ test('Should allow custom builder plugins', async t => {
   const res = await server.get('/builder-plugins/pipeline-operator')
   t.is(res.text, 'Hello, hello!')
 })
+
+test('Should pass next-simple', async t => {
+  const res = await server.get('/catcher/next-simple')
+  t.is(res.text, '#c1->#c2')
+})
+
+test('Should pass status-simple', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/status-simple')
+      t.is(res.text, '#403')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/status-simple/literal')
+      t.is(res.text, '#403')
+    })()
+  ])
+})
+
+test('Should pass catch-specific-simple', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/catch-specific-simple/1')
+      t.is(res.text, '#err1')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/catch-specific-simple/2')
+      t.is(res.text, '#err2')
+    })()
+  ])
+})
