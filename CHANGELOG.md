@@ -34,8 +34,6 @@ __:exclamation: Upgrade engine: 'node >= 8.0.0'__
 ### Changed
 - :exclamation: Adjustment options of `factory` and almost internal classes (see [0.4.0 Overview](#0.4.0-overview))
 
-- Now `next(error)` will be handled by [`finalhandler`](https://github.com/pillarjs/finalhandler)
-
 ### Deprecated
 - Deprecate `export.ignore` property of _Responsers_, _Middlewares_ and _Parameters_
 

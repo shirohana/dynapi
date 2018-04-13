@@ -16,7 +16,9 @@ module.exports = {
     // Allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // Do not allow console.logs etc...
-    'no-console': 2
+    'no-console': 2,
+    // Allow yoda condition when using with range
+    'yoda': ['error', 'never', { 'exceptRange': true }]
   },
   globals: {}
 }
