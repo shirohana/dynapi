@@ -43,6 +43,11 @@ test('Should handle nested static routes', async t => {
   ])
 })
 
+test('Set res.statusCode but not sent', async t => {
+  const res = await server.get('/p4')
+  t.is(res.status, 406)
+})
+
 test('Should process middlewares', async t => {
   const res = await server.get('/m1')
   t.is(res.text, 'm1/>0')
@@ -171,4 +176,56 @@ test('Should 408 when responser took too much time', async t => {
 test('Should allow custom builder plugins', async t => {
   const res = await server.get('/builder-plugins/pipeline-operator')
   t.is(res.text, 'Hello, hello!')
+})
+
+test('Should handle 404 HEAD', async t => {
+  const res = await server.head('/basic')
+  t.is(res.status, 404)
+})
+
+test('Should pass next-simple', async t => {
+  const res = await server.get('/catcher/next-simple')
+  t.is(res.text, '#c1->#c2')
+})
+
+test('Should pass status-simple', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/status-simple')
+      t.is(res.text, '#403')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/status-simple/literal')
+      t.is(res.text, '#403')
+    })()
+  ])
+})
+
+test('Should pass catch-specific-simple', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/catch-specific-simple/1')
+      t.is(res.text, '#err1')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/catch-specific-simple/2')
+      t.is(res.text, '#err2')
+    })()
+  ])
+})
+
+test('Should pass next-and-throw', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/next-and-throw/p1')
+      t.is(res.text, '#c1->#c2->#c4->#c6->#c7')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/next-and-throw/p2')
+      t.is(res.text, '#all:#c4->#c5->#c7')
+    })()
+  ])
 })
