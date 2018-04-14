@@ -7,19 +7,19 @@ function createServer () {
 
   // Normal route
   routers.push({
-    routesdir: 'routes'
+    routesdir: 'route-basic'
   })
 
   // Route with complex routefile name
   routers.push({
     root: '/complex',
-    routesdir: 'routes2'
+    routesdir: 'route-complex'
   })
 
   // Route with alias
   routers.push({
     root: '/user',
-    routesdir: 'routes3',
+    routesdir: 'route-alias',
     aliases: [
       'models'
     ]
@@ -28,13 +28,13 @@ function createServer () {
   // Request timeout
   routers.push({
     root: '/racer',
-    routesdir: 'routes4'
+    routesdir: 'route-racer'
   })
 
   // Custom Builder plugin
   routers.push({
     root: '/builder-plugins',
-    routesdir: 'routes5',
+    routesdir: 'route-builder-plugin',
     build: {
       plugins: ['@babel/plugin-proposal-pipeline-operator']
     }

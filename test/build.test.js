@@ -205,3 +205,17 @@ test('Should pass catch-specific-simple', async t => {
     })()
   ])
 })
+
+test('Should pass next-and-throw', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/catcher/next-and-throw/p1')
+      t.is(res.text, '#c1->#c2->#c4->#c6->#c7')
+    })(),
+    (async () => {
+      const res = await server.get('/catcher/next-and-throw/p2')
+      t.is(res.text, '#all:#c4->#c5->#c7')
+    })()
+  ])
+})
