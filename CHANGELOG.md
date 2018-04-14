@@ -9,6 +9,8 @@ __:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0
 __:exclamation: Upgrade engine: 'node >= 8.0.0'__
 
 ### Added
+- :sparkles: New feature: `Catcher` (TODO: example)
+
 - :sparkles: New feature: `plugin-support` (see [0.4.0 Plugins](#0.4.0-plugins))
 
 - New built-in plugin: `ignore-paths` (For _Router_)
