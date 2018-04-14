@@ -43,6 +43,11 @@ test('Should handle nested static routes', async t => {
   ])
 })
 
+test('Set res.statusCode but not sent', async t => {
+  const res = await server.get('/p4')
+  t.is(res.status, 406)
+})
+
 test('Should process middlewares', async t => {
   const res = await server.get('/m1')
   t.is(res.text, 'm1/>0')
@@ -171,6 +176,11 @@ test('Should 408 when responser took too much time', async t => {
 test('Should allow custom builder plugins', async t => {
   const res = await server.get('/builder-plugins/pipeline-operator')
   t.is(res.text, 'Hello, hello!')
+})
+
+test('Should handle 404 HEAD', async t => {
+  const res = await server.head('/basic')
+  t.is(res.status, 404)
 })
 
 test('Should pass next-simple', async t => {
