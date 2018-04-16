@@ -33,7 +33,7 @@ export default {
 
   asyncData (context) {
     // Avoid fat example
-    if (context.isClient) {
+    if (process.client) {
       return window.location.reload()
     }
 

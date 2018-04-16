@@ -1,6 +1,6 @@
 {
   "name": "dynapi",
-  "version": "0.3.7",
+  "version": "0.4.0-beta.1",
   "description": "A dynamic routes rendering middleware for Express/Connect",
   "main": "index.js",
   "repository": "git@github.com:shirohana/dynapi.git",
@@ -17,55 +17,65 @@
     "framework"
   ],
   "files": [
-    "dist/"
+    "dist/",
+    "plugins/*/index.js"
   ],
   "nyc": {
     "include": [
-      "lib"
+      "lib",
+      "plugins"
+    ],
+    "exclude": [
+      "plugins/*/test"
     ]
   },
   "scripts": {
-    "test": "npm run lint && cross-env NODE_ENV=test npm run build && cross-env DEBUG=api:* nyc ava --verbose test/ && nyc report --reporter=html",
+    "test": "npm run lint && cross-env NODE_ENV=test npm run build && nyc ava --verbose test/ plugins/*/test/ && nyc report --reporter=html",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint --ext .js lib test/*.js",
+    "lint": "eslint lib/**/*.js test/**/*.test.js plugins/*/test/*.test.js && standard plugins/**/*.js",
     "build": "rollup -c build/rollup.config.js",
     "watch": "npm run build -- -w",
     "prepare": "npm run build",
     "precommit": "npm run lint"
   },
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
+  },
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/traverse": "^7.0.0-beta.40",
     "chalk": "^2.1.0",
-    "chokidar": "^1.7.0",
+    "chokidar": "^2.0.0",
     "debug": "^3.0.1",
     "glob": "^7.1.2",
     "native-require": "^1.1.2",
-    "source-map-support": "^0.5.0",
-    "tappable": "^1.1.0"
+    "source-map-support": "^0.5.0"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.40",
+    "ava": "^0.25.0",
     "babel-eslint": "^8.0.0",
     "babel-plugin-istanbul": "^4.1.4",
     "codecov": "^3.0.0",
     "connect": "^3.6.3",
     "cross-env": "^5.0.5",
     "eslint": "^4.5.0",
-    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.15.4",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^5.0.0",
     "husky": "^0.14.3",
     "nyc": "^11.1.0",
-    "rollup": "^0.52.1",
-    "rollup-plugin-alias": "^1.3.1",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-commonjs": "^8.2.0",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "4.0.0-beta.4",
+    "rollup-plugin-commonjs": "^9.1.0",
     "rollup-watch": "^4.3.1",
+    "standard": "^11.0.0",
     "supertest": "^3.0.0"
   }
 }

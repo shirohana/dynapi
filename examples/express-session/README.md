@@ -2,6 +2,12 @@
 
 ### Install dependencies
 
+##### Using NPM
+```
+$ npm install
+```
+
+##### Using Yarn
 ```
 $ yarn install
 ```
@@ -9,8 +15,13 @@ $ yarn install
 ### Start server
 
 ```
-$ yarn start
+$ node index.js
 ```
+
+### Done
+Now you can visit [http://127.0.0.1:3000](http://127.0.0.1:3000)
+
+##
 
 ### Project structure
 

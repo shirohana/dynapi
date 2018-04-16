@@ -1,45 +1,105 @@
-import test from 'ava'
 import { join } from 'path'
-import fs from 'fs-extra'
+import test from 'ava'
 import request from 'supertest'
-import nrequire from 'native-require'
+import _require from 'native-require'
+import fs from 'fs-extra'
 
-const rootDir = join(__dirname, './fixtures/watch')
+process.on('unhandledRejection', err => {
+  throw err
+})
 
-const r = (p) => join(rootDir, p)
-const resource = (p) => join(rootDir, 'resources', p)
-
-let server = null
-let watcher = null // To be closed
-
-const run = async (callback) => {
-  callback()
+async function run (promise) {
+  await promise
   await new Promise(resolve => setTimeout(resolve, 400))
 }
 
+const serverDir = join(__dirname, 'fixtures/watch/server')
+const resourceDir = join(__dirname, 'fixtures/watch/resources')
+const s = (p) => join(serverDir, p)
+const r = (p) => join(resourceDir, p)
+
+const createServer = _require.from(__dirname).require('./fixtures/watch/server')
+let server
+
 test.before(async () => {
-  // Clean up working directory for previous broken test
-  await Promise.all([
-    fs.remove(r('api')),
-    fs.remove(r('controller')),
-    fs.remove(r('error'))
-  ])
+  fs.removeSync(serverDir)
+  fs.copySync(r('server'), serverDir)
 
-  await Promise.all([
-    fs.copy(resource('api'), r('api')),
-    fs.copy(resource('controller'), r('controller')),
-    fs.copy(resource('error'), r('error'))
-  ])
-
-  const app = await nrequire.from(rootDir)('./server-express')()
-  server = request(app)
-  watcher = app.watcher
+  server = request(await createServer())
 
   // I don't know why it works :(
   if (/^linux/.test(process.platform)) {
-    await run(() => fs.appendFileSync(r('api/get.js'), '\n// Touched\n'))
+    fs.appendFileSync(s('routes/get.js'))
   }
 })
+
+test.after(async () => {
+  createServer.closeAll()
+  fs.removeSync(serverDir)
+})
+
+test('Should handle exists Responsers', async t => {
+  t.plan(2)
+  await Promise.all([
+    (async () => {
+      const res = await server.get('/')
+      t.is(res.text, 'Homepage')
+    })(),
+    (async () => {
+      const res = await server.get('/pi')
+      t.is(res.status, 500)
+    })()
+  ])
+})
+
+test('Should handle new Responser', async t => {
+  let res = await server.post('/')
+  t.is(res.status, 404)
+
+  await run(fs.copy(r('post.js'), s('routes/post.js')))
+  res = await server.post('/')
+  t.is(res.text, 'New Responser!')
+
+  await run(fs.remove(s('routes/post.js')))
+  res = await server.post('/')
+  t.is(res.status, 404)
+})
+
+test('Should watch files outside `routes`', async t => {
+  let res = await server.get('/user/Hana')
+  t.is(res.status, 404)
+
+  await run(fs.copy(r('user1.js'), s('models/user.js')))
+  await run(fs.copy(r('getUser(:name).js'), s('routes/getUser(:name).js')))
+  res = await server.get('/user/Hana')
+  t.is(res.text, 'Hello, Hana')
+
+  await run(fs.copy(r('user2.js'), s('models/user.js')))
+  res = await server.get('/user/Hana')
+  t.is(res.text, 'Hello, I\'m Hana')
+})
+
+test('Should 500 when build Responsers failure', async t => {
+  let res = await server.get('/broken-1')
+  t.is(res.status, 404)
+
+  await run(fs.copy(r('broken-responser.js'), s('routes/getBroken1.js')))
+  // It will print error stack two times, one when build time, one when requested
+  res = await server.get('/broken-1')
+  t.is(res.status, 500)
+})
+
+test('Should 500 when build Middlewares failure', async t => {
+  let res = await server.get('/broken-2')
+  t.is(res.status, 404)
+
+  await run(fs.copy(r('broken-middleware.js'), s('routes/broken-2/>0.js')))
+  // It will print error stack two times, one when build time, one when requested
+  res = await server.get('/broken-2')
+  t.is(res.status, 500)
+})
+
+/*
 
 test.serial('Check initial status', async t => {
   t.is((await server.get('/api')).status, 200)
@@ -139,10 +199,11 @@ test.serial('Remove parameter', async t => {
 })
 
 test.after(async () => {
-  await watcher.close()
   await Promise.all([
     fs.remove(r('api')),
     fs.remove(r('controller')),
     fs.remove(r('error'))
   ])
 })
+
+*/

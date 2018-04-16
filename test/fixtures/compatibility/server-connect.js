@@ -1,19 +1,19 @@
 const connect = require('connect')
-const { Dynapi, Builder } = require('../../../index')
-
-const options = {
-  dev: true,
-  rootDir: __dirname
-}
+const dynapi = require('../../../index')
 
 module.exports = function createServer () {
   const app = connect()
-  const dynapi = new Dynapi(options)
 
-  app.use('/api', dynapi.middleware())
+  app.use(dynapi({
+    dev: false,
+    watch: false,
+    router: {
+      srcdir: 'test/fixtures/compatibility',
+      routesdir: 'routes'
+    }
+  }))
 
-  // Calling close() for coverage
-  app.close = dynapi.close.bind(dynapi)
-
-  return new Builder(dynapi).build().then(() => app)
+  return new Promise(resolve => {
+    setTimeout(() => resolve(app), 2000)
+  })
 }
