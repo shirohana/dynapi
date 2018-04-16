@@ -7,6 +7,9 @@ Changelog
 ### Changed
 - Use filename to sort middlewares (we use `kebab-case(filename)` before)
 
+### Fixed
+- Prevent error thrown when `Catcher.catches` contains unexpected type of value
+
 [0.4.0-beta.2] - 2018-04-16
 ---------------------------
 
