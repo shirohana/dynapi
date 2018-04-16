@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Changed
+- Use filename to sort middlewares (we use `kebab-case(filename)` before)
+
 [0.4.0-beta.2] - 2018-04-16
 ---------------------------
 
