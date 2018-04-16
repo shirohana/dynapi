@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+[0.4.0-beta.1] - 2018-04-14
+---------------------------
+
 __:exclamation: This release contains breaking changes (see [0.4.0 Migrating](#0.4.0-migrating))__
 
 __:exclamation: Upgrade engine: 'node >= 8.0.0'__
@@ -451,7 +454,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.3.7...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.1...dev
+[0.4.0-beta.1]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.1
 [0.3.7]: https://github.com/shirohana/dynapi/releases/tag/v0.3.7
 [0.3.6]: https://github.com/shirohana/dynapi/releases/tag/v0.3.6
 [0.3.5]: https://github.com/shirohana/dynapi/releases/tag/v0.3.5
