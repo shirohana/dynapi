@@ -4,6 +4,12 @@ Changelog
 [Unreleased]
 ------------
 
+[0.4.0-beta.2] - 2018-04-16
+---------------------------
+
+### Fixed
+- Fix root catchers was been ignored
+
 [0.4.0-beta.1] - 2018-04-14
 ---------------------------
 
@@ -454,7 +460,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.1...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.2...dev
+[0.4.0-beta.2]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.2
 [0.4.0-beta.1]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.1
 [0.3.7]: https://github.com/shirohana/dynapi/releases/tag/v0.3.7
 [0.3.6]: https://github.com/shirohana/dynapi/releases/tag/v0.3.6
