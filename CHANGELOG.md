@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Fixed
+- Fix root catchers was been ignored
+
 [0.4.0-beta.1] - 2018-04-14
 ---------------------------
 
