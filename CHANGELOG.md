@@ -10,6 +10,7 @@ Changelog
 ### Fixed
 - Fix throwing error when `Catcher.catches` contains unexpected type of value
 - Fix throwing error when delete routefile which is `unknown` type and no other file in the route
+- Fix splicing catcher from empty array
 
 [0.4.0-beta.2] - 2018-04-16
 ---------------------------
