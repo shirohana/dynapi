@@ -7,19 +7,19 @@ function createServer () {
 
   // Normal route
   routers.push({
-    routesdir: 'route-basic'
+    entry: './route-basic'
   })
 
   // Route with complex routefile name
   routers.push({
     root: '/complex',
-    routesdir: 'route-complex'
+    entry: './route-complex'
   })
 
   // Route with alias
   routers.push({
     root: '/user',
-    routesdir: 'route-alias',
+    entry: './route-alias',
     aliases: [
       'models'
     ]
@@ -28,13 +28,13 @@ function createServer () {
   // Request timeout
   routers.push({
     root: '/racer',
-    routesdir: 'route-racer'
+    entry: './route-racer'
   })
 
   // Custom Builder plugin
   routers.push({
     root: '/builder-plugins',
-    routesdir: 'route-builder-plugin',
+    entry: './route-builder-plugin',
     build: {
       plugins: ['@babel/plugin-proposal-pipeline-operator']
     }
@@ -43,17 +43,15 @@ function createServer () {
   // Catcher test
   routers.push({
     root: '/catcher',
-    routesdir: 'route-catcher',
+    entry: './route-catcher',
     aliases: [
       { from: 'error', to: './catcher-errors' }
     ]
   })
 
   app.use(dynapi({
-    debug: false,
-    watch: false,
     rootdir: __dirname,
-    srcdir: 'server',
+    src: './server',
     routers: routers
   }))
   return new Promise(resolve => setTimeout(() => resolve(app), 2000))

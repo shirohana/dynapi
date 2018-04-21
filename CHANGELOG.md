@@ -4,6 +4,23 @@ Changelog
 [Unreleased]
 ------------
 
+[0.4.0-beta.3] - 2018-04-21
+---------------------------
+
+### :exclamation: Breaking changes
+- Rename Router options
+  - `srcdir` -> `src`
+  - `routesdir` -> `entry`
+
+### Changed
+- Use filename to sort middlewares (we use `kebab-case(filename)` before)
+- Set `watch` option default to `false` (same as `dev` before)
+
+### Fixed
+- Fix throwing error when `Catcher.catches` contains unexpected type of value
+- Fix throwing error when delete routefile which is `unknown` type and no other file in the route
+- Fix splicing catcher from empty array
+
 [0.4.0-beta.2] - 2018-04-16
 ---------------------------
 
@@ -460,7 +477,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.2...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.3...dev
+[0.4.0-beta.3]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.3
 [0.4.0-beta.2]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.2
 [0.4.0-beta.1]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.1
 [0.3.7]: https://github.com/shirohana/dynapi/releases/tag/v0.3.7

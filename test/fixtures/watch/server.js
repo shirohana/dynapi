@@ -4,11 +4,11 @@ const dynapi = require('../../../index')
 function createServer () {
   const app = express()
   app.use(dynapi({
-    debug: false,
+    watch: true,
     rootdir: __dirname,
-    srcdir: 'server',
     routers: [{
-      routesdir: 'routes'
+      src: './server',
+      entry: './routes'
     }]
   }))
   return new Promise(resolve => setTimeout(() => resolve(app), 2000))

@@ -6,10 +6,9 @@ module.exports = function createServer () {
 
   app.use(dynapi({
     dev: false,
-    watch: false,
+    rootdir: __dirname,
     router: {
-      srcdir: 'test/fixtures/compatibility',
-      routesdir: 'routes'
+      entry: './routes'
     }
   }))
 

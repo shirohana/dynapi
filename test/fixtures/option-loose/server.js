@@ -7,10 +7,9 @@ function createServer (opt) {
 
   app.use(dynapi({
     loose: !!opt.loose,
-    watch: false,
+    rootdir: __dirname,
     router: {
-      srcdir: 'test/fixtures/option-loose',
-      routesdir: 'routes'
+      entry: './routes'
     }
   }))
 

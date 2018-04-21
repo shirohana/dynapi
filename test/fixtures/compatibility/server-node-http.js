@@ -4,10 +4,9 @@ const dynapi = require('../../../index')
 module.exports = function createServer () {
   const app = http.createServer(dynapi({
     dev: false,
-    watch: false,
+    rootdir: __dirname,
     router: {
-      srcdir: 'test/fixtures/compatibility',
-      routesdir: 'routes'
+      entry: './routes'
     }
   }))
 
