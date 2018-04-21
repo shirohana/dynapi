@@ -5,12 +5,9 @@ function createServer (opt = {}) {
   const app = connect()
 
   app.use(dynapi({
-    debug: false,
-    watch: false,
+    rootdir: __dirname,
     router: {
-      rootdir: __dirname,
-      srcdir: '.',
-      routesdir: 'routes',
+      entry: './routes',
       plugins: opt.plugins,
       ignore: opt.ignore
     },

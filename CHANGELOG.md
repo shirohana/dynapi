@@ -4,6 +4,11 @@ Changelog
 [Unreleased]
 ------------
 
+### :exclamation: Breaking changes
+- Rename Router options
+  - `srcdir` -> `src`
+  - `routesdir` -> `entry`
+
 ### Changed
 - Use filename to sort middlewares (we use `kebab-case(filename)` before)
 - Set `watch` option default to `false` (same as `dev` before)
