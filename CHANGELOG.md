@@ -6,6 +6,7 @@ Changelog
 
 ### Changed
 - Use filename to sort middlewares (we use `kebab-case(filename)` before)
+- Set `watch` option default to `false` (same as `dev` before)
 
 ### Fixed
 - Fix throwing error when `Catcher.catches` contains unexpected type of value

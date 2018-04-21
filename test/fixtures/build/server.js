@@ -51,7 +51,6 @@ function createServer () {
 
   app.use(dynapi({
     debug: false,
-    watch: false,
     rootdir: __dirname,
     srcdir: 'server',
     routers: routers

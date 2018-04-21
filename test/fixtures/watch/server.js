@@ -5,6 +5,7 @@ function createServer () {
   const app = express()
   app.use(dynapi({
     debug: false,
+    watch: true,
     rootdir: __dirname,
     srcdir: 'server',
     routers: [{
