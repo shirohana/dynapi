@@ -4,6 +4,34 @@ Changelog
 [Unreleased]
 ------------
 
+### Fixed
+- Fix Parameter didn't pass to nested param-routes when a static-route in the between
+
+    <details><summary>Details</summary>
+
+    ###
+    Directory structure:
+
+    ```
+    </pages/
+    ▾ :page/
+      ▾ :pageNo/
+        ▾ :chapterNo/
+      ▾ chapter/
+        ▾ :chapterNo/
+      &page.js
+      &chapterNo.js
+    ```
+
+    #### Before
+    - :o: /:page/:pageNo/:chapterNo
+    - :x: /:page/chapter/:chapterNo (`:chapterNo` won't tritter `&chapterNo.js` if there's a `static-route` between)
+
+    #### After
+    - :o: /:page/:pageNo/:chapterNo
+    - :o: /:page/chapter/:chapterNo
+    </details>
+
 [0.4.0-beta.3] - 2018-04-21
 ---------------------------
 
