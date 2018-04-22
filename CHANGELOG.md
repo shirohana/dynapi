@@ -4,6 +4,37 @@ Changelog
 [Unreleased]
 ------------
 
+[0.4.0-beta.4] - 2018-04-22
+---------------------------
+
+### Fixed
+- Fix Parameter didn't pass to nested param-routes when a static-route in the between
+
+    <details><summary>Details</summary>
+
+    ###
+    Directory structure:
+
+    ```
+    </pages/
+    ▾ :page/
+      ▾ :pageNo/
+        ▾ :chapterNo/
+      ▾ chapter/
+        ▾ :chapterNo/
+      &page.js
+      &chapterNo.js
+    ```
+
+    #### Before
+    - :o: /:page/:pageNo/:chapterNo
+    - :x: /:page/chapter/:chapterNo (`:chapterNo` won't tritter `&chapterNo.js` if there's a `static-route` between)
+
+    #### After
+    - :o: /:page/:pageNo/:chapterNo
+    - :o: /:page/chapter/:chapterNo
+    </details>
+
 [0.4.0-beta.3] - 2018-04-21
 ---------------------------
 
@@ -477,7 +508,8 @@ app.use('/api', dynapi.middleware())
 [github]: https://github.com/shirohana/dynapi
 [npm]: https://www.npmjs.com/package/dynapi
 
-[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.3...dev
+[Unreleased]: https://github.com/shirohana/dynapi/compare/v0.4.0-beta.4...dev
+[0.4.0-beta.3]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.4
 [0.4.0-beta.3]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.3
 [0.4.0-beta.2]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.2
 [0.4.0-beta.1]: https://github.com/shirohana/dynapi/releases/tag/v0.4.0-beta.1
