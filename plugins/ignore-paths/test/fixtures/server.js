@@ -10,7 +10,7 @@ function createServer (opt = {}) {
       entry: './routes',
       plugins: opt.plugins,
       ignore: opt.ignore
-    },
+    }
   }))
 
   return new Promise(resolve => setTimeout(() => resolve(app), 2000))
