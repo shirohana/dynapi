@@ -30,12 +30,10 @@
     ]
   },
   "scripts": {
-    "test": "npm run lint && cross-env NODE_ENV=test npm run build && nyc ava --verbose test/ plugins/*/test/ && nyc report --reporter=html",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "build": "rollup -c build/rollup.config.js",
-    "watch": "npm run build -- -w",
-    "prepare": "npm run build",
-    "precommit": "lint-staged"
+    "build": "make build",
+    "lint": "make lint",
+    "precommit": "lint-staged",
+    "test": "make test"
   },
   "engines": {
     "node": ">=8.0.0",
