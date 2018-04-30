@@ -4,7 +4,7 @@ MAKEFLAGS = --jobs=1
 # Fix color output until TravisCI fixes https://github.com/travis-ci/travis-ci/issues/7967
 export FORCE_COLOR = true
 
-.PHONY: build watch clean lint test test-only test-ci-coverage bootstrap clean-all
+.PHONY: build watch lint fix test-only test test-ci-coverage publish bootstrap clean clean-lib clean-all
 
 build: clean clean-lib
 	./node_modules/.bin/gulp build
@@ -29,6 +29,13 @@ test-ci-coverage:
 	BABEL_ENV=test ./node_modules/.bin/nyc ./scripts/test.sh
 	./node_modules/.bin/nyc report --reporter=json
 	./node_modules/.bin/codecov -f coverage/coverage-final.json
+
+publish:
+	make clean-lib
+	BABEL_ENV=production make build
+	make test
+	./node_modules/.bin/lerna publish
+	make clean
 
 bootstrap: clean
 	yarn --ignore-engines
