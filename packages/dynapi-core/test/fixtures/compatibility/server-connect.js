@@ -1,10 +1,10 @@
 const connect = require('connect')
-const dynapi = require('../../../index')
+const dynapi = require('../../../lib')
 
 module.exports = function createServer () {
   const app = connect()
 
-  app.use(dynapi({
+  app.use(dynapi.factory({
     dev: false,
     rootdir: __dirname,
     router: {

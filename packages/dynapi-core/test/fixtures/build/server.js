@@ -1,5 +1,5 @@
 const express = require('express')
-const dynapi = require('../../../index')
+const dynapi = require('../../../lib')
 
 function createServer () {
   const app = express()
@@ -36,7 +36,9 @@ function createServer () {
     root: '/builder-plugins',
     entry: './route-builder-plugin',
     build: {
-      plugins: ['@babel/plugin-proposal-pipeline-operator']
+      plugins: [
+        require('@babel/plugin-proposal-pipeline-operator')
+      ]
     }
   })
 
@@ -49,7 +51,7 @@ function createServer () {
     ]
   })
 
-  app.use(dynapi({
+  app.use(dynapi.factory({
     rootdir: __dirname,
     src: './server',
     routers: routers

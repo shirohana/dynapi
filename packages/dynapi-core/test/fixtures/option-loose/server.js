@@ -1,11 +1,11 @@
 const connect = require('connect')
-const dynapi = require('../../../index')
+const dynapi = require('../../../lib')
 const finalhandler = require('finalhandler')
 
 function createServer (opt) {
   const app = connect()
 
-  app.use(dynapi({
+  app.use(dynapi.factory({
     loose: !!opt.loose,
     rootdir: __dirname,
     router: {

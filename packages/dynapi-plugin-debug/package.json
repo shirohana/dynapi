@@ -1,0 +1,19 @@
+{
+  "name": "@dynapi/plugin-debug",
+  "version": "0.0.0",
+  "description": "Log debug message on hooks.",
+  "main": "lib/index.js",
+  "author": "Hana Shiro <shirohana0608@gmail.com>",
+  "license": "MIT",
+  "repository": "https://github.com/shirohana/dynapi/tree/dev/packages/dynapi-plugin-debug",
+  "keywords": [
+    "dynapi",
+    "debug",
+    "plugin",
+    "middleware"
+  ],
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "debug": "^3.0.1"
+  }
+}

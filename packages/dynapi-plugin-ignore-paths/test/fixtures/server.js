@@ -1,10 +1,10 @@
 const connect = require('connect')
-const dynapi = require('../../../../index')
+const dynapi = require('dynapi')
 
 function createServer (opt = {}) {
   const app = connect()
 
-  app.use(dynapi({
+  app.use(dynapi.factory({
     rootdir: __dirname,
     router: {
       entry: './routes',

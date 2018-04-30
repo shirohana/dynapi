@@ -1,17 +1,10 @@
-# Dependencies
-node_modules
-
-# Logs
 *.log
-
-# Compiled Files
-dist
-.dynapi
-
-# Code coverage
-coverage
+.DS_Store
 .nyc_output
+/.changelog
+/node_modules
+/packages/*/lib
+/packages/*/node_modules
+coverage
 coverage.lcov
-
-# yarn.lock of examples
-examples/**/yarn.lock
+dist

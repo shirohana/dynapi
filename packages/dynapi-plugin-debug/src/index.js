@@ -36,8 +36,6 @@ function dynapiPluginDebug (options) {
 
 exports = module.exports = dynapiPluginDebug
 
-exports.name = 'dynapi-plugin-debug'
-
 exports.availables = {
   Router: true
 }

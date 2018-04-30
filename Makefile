@@ -1,42 +1,46 @@
 # One command aT the time
 MAKEFLAGS = --jobs=1
-TEST_FILES = test plugins/*/test
 
 # Fix color output until TravisCI fixes https://github.com/travis-ci/travis-ci/issues/7967
 export FORCE_COLOR = true
 
 .PHONY: build watch clean lint test test-only test-ci-coverage bootstrap clean-all
 
-build: clean
-	./node_modules/.bin/rollup -c build/rollup.config.js
+build: clean clean-lib
+	./node_modules/.bin/gulp build
 
-watch: clean
-	./node_modules/.bin/rollup -c build/rollup.config.js -w
+watch: clean clean-lib
+	BABEL_ENV=development ./node_modules/.bin/gulp watch
 
 lint:
-	./node_modules/.bin/eslint 'lib/**/*.js' 'test/**/*.test.js' 'plugins/*/test/*.test.js' --format=codeframe
-	./node_modules/.bin/standard 'plugins/**/*.js'
+	./node_modules/.bin/eslint '*.js' 'scripts/**/*.js' 'packages/*/src/**/*.js' 'packages/*/test/*.test.js' --format=codeframe
+
+fix:
+	./node_modules/.bin/eslint '*.js' 'scripts/**/*.js' 'packages/*/src/**/*.js' 'packages/*/test/*.test.js' --fix --format=codeframe
 
 test-only:
-	./node_modules/.bin/ava --verbose $(TEST_FILES)
+	BABEL_ENV=test ./scripts/test.sh
 
 test: lint test-only
 
 test-ci-coverage:
 	@set -e
-	BABEL_ENV=test make bootstrap
-	./node_modules/.bin/nyc ./node_modules/.bin/ava --verbose $(TEST_FILES)
+	BABEL_COVERAGE=true BABEL_ENV=test make bootstrap
+	BABEL_ENV=test ./node_modules/.bin/nyc ./scripts/test.sh
 	./node_modules/.bin/nyc report --reporter=json
 	./node_modules/.bin/codecov -f coverage/coverage-final.json
 
 bootstrap: clean
 	yarn --ignore-engines
+	./node_modules/.bin/lerna bootstrap -- --ignore-engines
 	make build
 
 clean:
-	rm -rf dist
 	rm -rf coverage
 	rm -rf .nyc_output
+
+clean-lib:
+	rm -rf packages/*/lib
 
 clean-all:
 	rm -rf node_modules

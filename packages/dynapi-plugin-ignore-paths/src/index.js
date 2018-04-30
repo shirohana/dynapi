@@ -43,8 +43,6 @@ function dynapiPluginIgnorePaths (ignorePaths) {
 
 exports = module.exports = dynapiPluginIgnorePaths
 
-exports.name = 'dynapi-plugin-ignore-paths'
-
 exports.availables = {
   Router: true
 }

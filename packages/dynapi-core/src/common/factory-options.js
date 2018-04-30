@@ -1,4 +1,3 @@
-import { join } from 'path'
 import _require from 'native-require'
 
 const FactoryOptions = {}
@@ -75,7 +74,7 @@ function requirePlugin (name, target) {
 
   /* istanbul ignore next */
   try {
-    plugin = _require.from(join(__dirname, '../plugins')).require('./' + name)
+    plugin = _require('@dynapi/plugin-' + name)
   } catch (err) {
     plugin = _require('dynapi-plugin-' + name)
   }

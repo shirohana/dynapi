@@ -1,0 +1,21 @@
+{
+  "name": "@dynapi/plugin-ignore-paths",
+  "version": "0.0.0",
+  "description": "Ignore specified request paths.",
+  "main": "lib/index.js",
+  "author": "Hana Shiro <shirohana0608@gmail.com>",
+  "license": "MIT",
+  "repository": "https://github.com/shirohana/dynapi/tree/dev/packages/dynapi-plugin-ignore-paths",
+  "keywords": [
+    "dynapi",
+    "routing",
+    "plugin",
+    "middleware"
+  ],
+  "devDependencies": {
+    "connect": "^3.6.6",
+    "dynapi": "^0.4.0-beta.4",
+    "native-require": "^1.1.4",
+    "supertest": "^3.0.0"
+  }
+}
