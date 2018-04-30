@@ -1,11 +1,15 @@
 Changelog
 =========
 
+> __Tags:__
+> - :boom:   [Breaking Change]
+> - :rocket: [New Feature]
+> - :bug:    [Bug Fix]
+> - :memo:   [Documentation]
+> - :house:  [Internal]
+
 [Unreleased]
 ------------
-
-### Internal
-- Remove `examples` (will re-populate into `dynapi-doc/examples`)
 
 [0.4.0-beta.4] - 2018-04-22
 ---------------------------
