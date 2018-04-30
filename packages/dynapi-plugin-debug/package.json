@@ -1,7 +1,7 @@
 {
   "name": "@dynapi/plugin-debug",
   "version": "0.0.0",
-  "description": "Log debug message on hooks.",
+  "description": "Useful debug messages.",
   "main": "lib/index.js",
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
