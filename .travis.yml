@@ -1,10 +1,18 @@
+sudo: false
 language: node_js
 node_js:
-  - "8"
+  - '8'
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+
 install:
-  - yarn install
-  - yarn run build
+  - yarn --ignore-engines
+
 script:
-  - yarn run test
-after_success:
-  - yarn run coverage
+  - make test-ci-coverage

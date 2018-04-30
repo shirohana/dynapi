@@ -4,6 +4,9 @@ Changelog
 [Unreleased]
 ------------
 
+### Internal
+- Remove `examples` (will re-populate into `dynapi-doc/examples`)
+
 [0.4.0-beta.4] - 2018-04-22
 ---------------------------
 
