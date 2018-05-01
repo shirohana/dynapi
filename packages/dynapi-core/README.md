@@ -53,7 +53,7 @@ const express = require('express') // or 'connect'
 const dynapi = require('dynapi')
 
 const app = express()
-app.use('/api', dynapi.factory({
+app.use('/api', dynapi({
   watch: process.env.NODE_ENV !== 'production',
   router: {
     src: './server',
