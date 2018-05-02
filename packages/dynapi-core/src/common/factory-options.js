@@ -25,22 +25,11 @@ FactoryOptions.from = function (opt) {
     options.routers.push(opt.router)
   }
 
-  // Fill router plugins
-  // Will be validated by RouterOptions
+  // Fill router plugins, options will be validated by RouterOptions
   options.routers.forEach(router => {
     router.rootdir = router.rootdir || options.rootdir
     router.src = (router.src || options.src || './')
     router.plugins = router.plugins || []
-
-    // Built-in plugin: ignore-paths
-    if (router.ignore) {
-      router.plugins.push(['ignore-paths', router.ignore])
-    }
-
-    // Built-in plugin: debug
-    if (router.debug) {
-      router.plugins.push(['debug', router.debug])
-    }
 
     // Fetch plugins
     if (router.plugins.length > 0) {
