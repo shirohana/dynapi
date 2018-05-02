@@ -27,7 +27,7 @@ test('Check dynapi works', async t => {
 })
 
 test('Should ignore filename', async t => {
-  const server = request(await createServer({ plugins: [['ignore-paths', ['a']]] }))
+  const server = request(await createServer({ ignore: ['a'] }))
   const result = [0, 1, 1, 0, 1, 1, 0, 1]
   await runTest(t, server, result)
 })

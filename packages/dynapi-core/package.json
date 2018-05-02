@@ -17,11 +17,9 @@
     "framework"
   ],
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/traverse": "^7.0.0-beta.40",
-    "@dynapi/plugin-debug": "^0.0.0",
-    "@dynapi/plugin-ignore-paths": "^0.0.0",
+    "@babel/core": "7.0.0-beta.46",
+    "@babel/preset-env": "7.0.0-beta.46",
+    "@babel/traverse": "7.0.0-beta.46",
     "chalk": "^2.1.0",
     "chokidar": "^2.0.0",
     "debug": "^3.0.1",

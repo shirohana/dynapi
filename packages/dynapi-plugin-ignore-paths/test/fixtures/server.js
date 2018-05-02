@@ -1,5 +1,6 @@
 const connect = require('connect')
 const dynapi = require('dynapi')
+const pluginIngorePaths = require('../../lib')
 
 function createServer (opt = {}) {
   const app = connect()
@@ -8,8 +9,9 @@ function createServer (opt = {}) {
     rootdir: __dirname,
     router: {
       entry: './routes',
-      plugins: opt.plugins,
-      ignore: opt.ignore
+      plugins: [
+        opt.ignore ? pluginIngorePaths(opt.ignore) : null
+      ].filter(Boolean)
     }
   }))
 
