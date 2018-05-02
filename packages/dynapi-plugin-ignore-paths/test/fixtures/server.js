@@ -8,8 +8,9 @@ function createServer (opt = {}) {
     rootdir: __dirname,
     router: {
       entry: './routes',
-      plugins: opt.plugins,
-      ignore: opt.ignore
+      plugins: [
+        opt.ignore ? ['ignore-paths', opt.ignore] : null
+      ].filter(Boolean)
     }
   }))
 
