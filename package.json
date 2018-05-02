@@ -1,81 +1,58 @@
 {
   "name": "dynapi",
-  "version": "0.4.0-beta.4",
-  "description": "A dynamic routes rendering middleware for Express/Connect",
-  "main": "index.js",
-  "repository": "git@github.com:shirohana/dynapi.git",
   "author": "Hana Shiro <shirohana0608@gmail.com>",
   "license": "MIT",
-  "keywords": [
-    "http",
-    "middleware",
-    "api",
-    "connect",
-    "express",
-    "server",
-    "web",
-    "framework"
-  ],
-  "files": [
-    "dist/",
-    "plugins/*/index.js"
-  ],
-  "nyc": {
-    "include": [
-      "lib",
-      "plugins"
-    ],
-    "exclude": [
-      "plugins/*/test"
-    ]
-  },
   "scripts": {
-    "test": "npm run lint && cross-env NODE_ENV=test npm run build && nyc ava --verbose test/ plugins/*/test/ && nyc report --reporter=html",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint lib/**/*.js test/**/*.test.js plugins/*/test/*.test.js && standard plugins/**/*.js",
-    "build": "rollup -c build/rollup.config.js",
-    "watch": "npm run build -- -w",
-    "prepare": "npm run build",
-    "precommit": "npm run lint"
+    "build": "make build",
+    "lint": "make lint",
+    "precommit": "lint-staged",
+    "test": "make test"
   },
   "engines": {
     "node": ">=8.0.0",
     "npm": ">=5.0.0"
   },
-  "dependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/traverse": "^7.0.0-beta.40",
-    "chalk": "^2.1.0",
-    "chokidar": "^2.0.0",
-    "debug": "^3.0.1",
-    "glob": "^7.1.2",
-    "native-require": "^1.1.2",
-    "source-map-support": "^0.5.0"
+  "lint-staged": {
+    "/*.js": "eslint --format=codeframe",
+    "scripts/**/*.js": "eslint --format=codeframe",
+    "packages/*/src/**/*.js": "eslint --format=codeframe",
+    "packages/*/test/*.test.js": "eslint --format=codeframe"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.40",
+    "@babel/core": "7.0.0-beta.46",
+    "@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.46",
+    "@babel/preset-env": "7.0.0-beta.46",
     "ava": "^0.25.0",
     "babel-eslint": "^8.0.0",
     "babel-plugin-istanbul": "^4.1.4",
+    "chalk": "^2.4.1",
     "codecov": "^3.0.0",
-    "connect": "^3.6.3",
-    "cross-env": "^5.0.5",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "express": "^4.15.4",
-    "fs-extra": "^5.0.0",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.0",
     "husky": "^0.14.3",
+    "lerna": "^2.10.2",
+    "lerna-changelog": "^0.7.0",
+    "lint-staged": "^7.0.4",
+    "merge-stream": "^1.0.1",
     "nyc": "^11.1.0",
-    "rollup": "^0.57.1",
-    "rollup-plugin-babel": "4.0.0-beta.4",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-watch": "^4.3.1",
-    "standard": "^11.0.0",
-    "supertest": "^3.0.0"
+    "through2": "^2.0.3"
+  },
+  "nyc": {
+    "include": [
+      "packages/*/src"
+    ],
+    "exclude": [
+      "packages/*/test"
+    ]
   }
 }

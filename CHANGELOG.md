@@ -1,6 +1,13 @@
 Changelog
 =========
 
+> __Tags:__
+> - :boom:   [Breaking Change]
+> - :rocket: [New Feature]
+> - :bug:    [Bug Fix]
+> - :memo:   [Documentation]
+> - :house:  [Internal]
+
 [Unreleased]
 ------------
 
